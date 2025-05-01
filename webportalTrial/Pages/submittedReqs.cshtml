@@ -1,0 +1,63 @@
+﻿@page
+@using cmebWebPortal.Models
+@using webportalTrial.Models
+@{
+    ViewData["Title"] = "Request Submissions";
+}
+
+<link href="~/css/submittedReqs.css" rel="stylesheet" />
+<div class="spacer-top">
+    <!-- Card -->
+    <div class="card card-lg">
+        <!-- Header -->
+        <div class="card-header bg-primary-blue position-relative overflow-hidden">
+            <h1 class="card-title h2 text-white">REQUEST SUBMISSIONS</h1>
+            @* <p class="card-text text-white">Last modified: March 27, 2018 (view archived versions)</p> *@
+
+            <!-- Background Shapes -->
+            <div class="position-absolute" style="top: -6rem; left: -6rem;">
+                <img src="~/images/svg/components/shape-1-soft-light.svg" alt="SVG" width="500" style="width: 12rem;">
+            </div>
+            <div class="position-absolute" style="bottom: -6rem; right: -7rem;">
+                <img src="~/images/svg/components/shape-7-soft-light.svg" alt="SVG" width="250">
+            </div>
+            <!-- End Background Shapes -->
+        </div>
+        <!-- End Header -->
+        <!-- Card Body -->
+        <div class="card-body">
+            <div class="row shadow-xs p-3 mb-5 bg-white" id="applicantDetails">
+                <div class="col-12">
+              
+                @(Html.DevExtreme().DataGrid<SampleRequest>()
+                    .ID("requestSubmissionsGrid")
+                    .DataSource(ds => ds.Mvc().Controller("SampleSubmissions").LoadAction("GetSampleRequests"))
+                    .Columns(columns =>
+                    {
+                        columns.AddFor(m => m.MDA);
+                        columns.AddFor(m => m.TrackingNumber);
+                        columns.AddFor(m => m.RequestType);
+                        columns.AddFor(m => m.Status);
+                        columns.AddFor(m => m.StartDate);
+                        columns.AddFor(m => m.EndDate);
+                        columns.AddFor(m => m.PriorityLevel);
+                        columns.AddFor(m => m.Comments);
+                        columns.Add().CellTemplate(@<text>
+                    <a href="#" class="edit-icon"><i class="dx-icon dx-icon-edit"></i></a>
+                    <a href="#" class="delete-icon"><i class="dx-icon dx-icon-trash"></i></a>
+                </text>);
+                    })
+                    .Paging(p => p.PageSize(10))
+                    .FilterRow(f => f.Visible(true))
+                    .HeaderFilter(f => f.Visible(true))
+                    .GroupPanel(p => p.Visible(true))
+                    .RemoteOperations(true)
+                    )
+                </div>
+            </div>
+
+        </div>
+        <!-- End Card Body -->
+    </div>
+    <!-- End Card -->
+</div>

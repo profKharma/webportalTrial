@@ -1,0 +1,707 @@
+﻿@page
+@model cmebWebPortal.Pages.createRequestModel
+@{
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link href="~/css/createRequest.css" rel="stylesheet" />
+<div class="spacer-top">
+    <!-- Card -->
+    <div class="card card-lg">
+        <!-- Header -->
+        <div class="card-header bg-primary-blue position-relative overflow-hidden">
+            <h1 class="card-title h2 text-white">CREATE REQUEST</h1>
+            @* <p class="card-text text-white">Last modified: March 27, 2018 (view archived versions)</p> *@
+
+            <!-- Background Shapes -->
+            <div class="position-absolute" style="top: -6rem; left: -6rem;">
+                <img src="~/images/svg/components/shape-1-soft-light.svg" alt="SVG" width="500" style="width: 12rem;">
+            </div>
+            <div class="position-absolute" style="bottom: -6rem; right: -7rem;">
+                <img src="~/images/svg/components/shape-7-soft-light.svg" alt="SVG" width="250">
+            </div>
+            <!-- End Background Shapes -->
+        </div>
+        <!-- End Header -->
+
+        <div id="dateCreate" class="customFreeDiv col-4">
+            <span>@DateTime.Now.ToString("dd/MM/yyyy")</span>
+        </div>
+
+        <!-- Card Body -->
+        <div class="card-body">
+            <div class="row shadow-xs p-3 mb-5 bg-white" id="applicantDetails">
+
+                <!-- Sidebar -->
+                <div class="col-3">
+                    <div class="sidebar">
+                        <h3 class="sidebar-header">Request Types</h3>
+                        <ul class="sidebar-tabs">
+                            <li>Classification Schedule Template</li>
+                            <li>Establishment Request</li>
+                            <li>Reconciliation Request</li>
+                            <li>Temporary Post No/MyHR+ Schedule Request</li>
+                            <li>Post Audit</li>
+                            <li>Organizational Review</li>
+                            <li>Job Analysis</li>
+                            <li>Job Evaluation</li>
+                            <li>Technical Advice</li>
+                            <li>Quality Control Request</li>
+                            <li>Establishment Maintenance</li>
+                        </ul>
+                    </div>
+                </div>
+
+
+                <div id="mainContent" class="col-9">
+                    <form id="createReq" method="post">
+
+                        <!--date for req creation col-4 -->
+                        <div class=" topSection row">
+                            <div id=" method" class="customrightDiv col-4">
+                                <label>Submission Method</label>
+                                @(Html.DevExtreme().SelectBox().ID("method").Placeholder("Select a method of submission")
+                                    .InputAttr("aria-label", "method")
+                                    .DataSource(new[] { " Online Submission Only", "Online and Physical Submission" }))
+                            </div>
+
+                            <div class="col-4">
+                            </div>
+
+
+                        </div>
+
+
+                        <!--Section for requirement specs-->
+                        @* <div id="reqSpecs" class="form-container row"> *@
+                        @*     <div id="selectReqDiv" class="form-group col-4"> *@
+                        @* <label for="reqTypeSelect">Request Type</label> *@
+                        @* <select id="reqTypeSelect"> *@
+                        @*     <option selected disabled>Select Request Type...</option> *@
+                        @*     <option>Classification Schedule Template</option> *@
+                        @*     <option>Establishment Request</option> *@
+                        @*     <option>Reconciliation Request</option> *@
+                        @*     <option>Temporary Post No/MyHR+ Schedule Request</option> *@
+                        @*     <option>Post Audit</option> *@
+                        @*     <option>Organizational Review/Establishment Change</option> *@
+                        @*     <option>Job Analysis</option> *@
+                        @*     <option>Job Evaluation</option> *@
+                        @*     <option>Technical Advice</option> *@
+                        @*     <option>Quality Control Request (Internal Only)</option> *@
+                        @*     <option>Establishment Maintenance (Internal Only)</option> *@
+                        @* </select> *@
+                        @*     </div> *@
+
+
+                        @* </div> *@
+
+                        <!--MDA Details-->
+                        <div id="mdaDetesDiv" class="row frameDiv">
+
+                            <button type="button" class="toggleBtn">ENTITY DETAILS </button>
+
+
+
+                            <div id=" Ministry" class="col-4">
+                                <label>MDA</label>
+                                @(Html.DevExtreme().SelectBox().ID("mda").Placeholder("Select a Ministry/Dept/Agency")
+                                    .InputAttr("aria-label", "mda details")
+                                    .DataSource(new[] { "" }))
+                            </div>
+
+                            @* <div id=" otherEntities" class="col-3"> *@
+                            @*     <label> Other Entities </label> *@
+                            @*     @(Html.DevExtreme().TextBox().InputAttr("aria-label", "otherEntities")) *@
+                            @* </div> *@
+
+                            <div id=" Division" class="col-4">
+                                <label>Division</label>
+                                @(Html.DevExtreme().SelectBox().ID("division").Placeholder("Select a Division/Branch/Region")
+                                    .InputAttr("aria-label", "Division details")
+                                    .DataSource(new[] { "" }))
+                            </div>
+
+                            <div id=" Department" class="col-4">
+                                <label>Unit</label>
+                                @(Html.DevExtreme().SelectBox().ID("Department").Placeholder("Select a Dept/Section/Unit")
+                                    .InputAttr("aria-label", "Department details")
+                                    .DataSource(new[] { "" }))
+                            </div>
+
+
+                            <div id=" fName" class="col-6">
+                                <label> Contact Officer Full Name  </label>
+                                @(Html.DevExtreme().TextBox().ElementAttr(new { @class = "required-input" }).InputAttr("aria-label", "fName"))
+                            </div>
+
+                            <div id=" email" class="col-6">
+                                <label> Contact Officer Email  </label>
+                                @(Html.DevExtreme().TextBox().Placeholder("example@example.gov.jm").InputAttr("aria-label", "email"))
+                            </div>
+
+
+
+
+
+                            <div id=" phoneNumberOff" class="col-6">
+                                <label> Office Phone Number  </label>
+                                @(Html.DevExtreme().TextBox().Placeholder("+(1)876-123-4567").InputAttr("aria-label", "phoneNumber"))
+                            </div>
+                            <div id=" phoneNumberCUG" class="col-6">
+                                <label> CUG Phone Number  </label>
+                                @(Html.DevExtreme().TextBox().Placeholder("+(1)876-123-4567").InputAttr("aria-label", "phoneNumber"))
+                            </div>
+
+
+
+                            <div id="summary" class="col-12 ">
+                                <label> Summary of Submission  </label>
+                                @(Html.DevExtreme().TextArea().InputAttr("aria-label", "summary"))
+
+                            </div>
+
+                        </div>
+
+                        <!--post Info-->
+                        <div id="postInfo" class="row frameDiv">
+                            <button class="toggleBtn d-flex "> 
+                                <span>POST INFORMATION</span>
+                                <span class="frame-icon ms-auto rotate-icon">▲</span>
+                                </button>
+                            <div id="postInfoDiv" class="row content">
+                                <div id="postNum" class="col-4">
+                                    <label>Post Number</label>
+                                    @(Html.DevExtreme().TextBox().Placeholder("Post [# 61305]").InputAttr("aria-label", "postNum"))
+                                </div>
+
+
+                                <div id="postType" class="col-4">
+                                    <label>Post Type</label>
+                                    @(Html.DevExtreme().SelectBox().Placeholder("Select Post Type").InputAttr("aria-label", "postType").DataSource(new[] { "Permanent", "Temporary" }))
+                                </div>
+
+                                <div id="postStatus" class="col-4">
+                                    <label>Post Status</label>
+                                    @(Html.DevExtreme().SelectBox().Placeholder("Select Post Status").InputAttr("aria-label", "postStatus").
+                                        DataSource(new[] { "Filled", "Vacant" }))
+                                </div>
+
+                                <div id="postTitle" class="col-4">
+                                    <label>Post Title</label>
+                                    @(Html.DevExtreme().TextBox().Placeholder("Eg:Senior Analyst").InputAttr("aria-label", "postTitle"))
+                                </div>
+
+                                <div id="postGrade" class="col-4">
+                                    <label>Post Grade</label>
+                                    @(Html.DevExtreme().TextBox().Placeholder("Eg: SEG").InputAttr("aria-label", "postGrade"))
+                                </div>
+
+                                <div id="postLev" class="col-4">
+                                    <label>Post Level</label>
+                                    @(Html.DevExtreme().TextBox().Placeholder("EG: 6").InputAttr("aria-label", "postLev"))
+                                </div>
+
+
+                                <div id="Location" class="">
+                                    <label>Post Location</label>
+                                    @(Html.DevExtreme().TextBox().Placeholder("Eg: Kingston branch").InputAttr("aria-label", "Location"))
+                                </div>
+                            </div>
+                        </div>
+                        <!--Employee/Job Holder Information -->
+                        <div id="empJobHolder" class="row frameDiv">
+                            <button class="toggleBtn d-flex">
+                                <span>CURRENT EMPLOYEE INFORMATION</span>
+                                <span class="frame-icon ms-auto rotate-icon">▲</span>
+                            </button>
+
+                            <div class="row content">
+                                <div id=" empFname" class="col-6">
+                                    <label>Employee First Name</label>
+                                    @(Html.DevExtreme().TextBox().Placeholder("Enter first name here...").InputAttr("aria-label", "empFname"))
+                                </div>
+                                <div id=" empLname" class="col-6">
+                                    <label>Employee Last Name</label>
+                                    @(Html.DevExtreme().TextBox().Placeholder("Enter last name here...").InputAttr("aria-label", "empLname"))
+                                </div>
+                                <div id=" empType" class="col-6">
+                                    <label>Employee Type</label>
+                                    @(Html.DevExtreme().SelectBox().ID("empType")
+                                        .InputAttr("aria-label", "employee Type")
+                                        .DataSource(new[] { "Temporary", "Permanent", "Contract" }))
+                                </div>
+
+
+                                <div id="empStatus" class="col-6">
+                                    <label>Employee Status</label>
+                                    @(Html.DevExtreme().DropDownBox().Placeholder("Enter Employee Status").InputAttr("aria-label", "empStatus"))
+                                </div>
+                                <!--submitReqBtnsDiv-->
+                                <div id="subBtnsDiv" class="row">
+                                    <div id="addBtn" class="doneBtn col-6">
+                                        @(Html.DevExtreme().Button().Icon("plus")
+                                            .Text("Add Record")
+                                            .Type(ButtonType.Success).ElementAttr(new { @class = "button-custom" })
+                                            .UseSubmitBehavior(true))
+                                    </div>
+
+
+                                    <div class="doneBtn col-6">
+                                        @(Html.DevExtreme().Button()
+                                            .Icon("trash")
+                                            .Text("Remove Record")
+                                            .Type(ButtonType.Default).ElementAttr(new { @class = "button-custom" })
+                                            .UseSubmitBehavior(false))
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Classification Schedule -->
+                        <div id="classification" class="row frameDiv">
+                            <button class="toggleBtn d-flex">
+                                <span>POST CLASSIFICATION SCHEDULE</span>
+                                <span class="frame-icon ms-auto rotate-icon">▲</span>
+                            </button>
+
+                            <div class="row content">
+
+                                <div id="scheduleType" class="col-4">
+                                    <label>Schedule Type</label>
+                                    @(Html.DevExtreme().SelectBox().Placeholder("Select a Schedule Type").InputAttr("aria-label", "scheduleType").DataSource(new[] { "Proposed Classification Schedule", "Final Classification Schedule" }))
+                                </div>
+
+                                <div id="postNum" class="col-4">
+                                    <label>Post Number</label>
+                                    @(Html.DevExtreme().TextBox().Placeholder("Post [# 61305]").InputAttr("aria-label", "postNum"))
+                                </div>
+
+                                <div id=" scheduleType" class="col-4">
+                                    <label>Classification Schedule Type</label>
+
+                                    @(Html.DevExtreme().SelectBox().ID("classSchedType")
+                                        .InputAttr("aria-label", "schedule Type")
+                                        .DataSource(new[] { "Proposed Classification Schedule", "Final Classification Schedule" }))
+                                </div>
+                                <div id=" oldClass" class="col-6">
+                                    <label>Old Classification </label>
+                                    @(Html.DevExtreme().TextBox().Placeholder("Eg. GMG CTD 1").InputAttr("aria-label", "oldClass"))
+                                </div>
+                                <div id=" newClass" class="col-6">
+                                    <label>New Classification </label>
+                                    @(Html.DevExtreme().TextBox().Placeholder("Eg. GMG CTD 2").InputAttr("aria-label", "newClass"))
+                                </div>
+                                <div id=" scdRemarks" class="col-12 ta">
+                                    <label>Remarks</label>
+                                    @(Html.DevExtreme().TextArea().InputAttr("aria-label", "scdRemarks"))
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--Establishment Request -->
+
+                        <div id="estabReq" class="row frameDiv">
+                            <button class="toggleBtn d-flex">
+                                <span>ESTABLISHMENT REQUEST</span>
+                                <span class="frame-icon ms-auto rotate-icon">▲</span>
+                            </button>
+
+
+                            <div class="row content">
+
+                                <div id=" DateRevised" class="col-6">
+                                    <label>Last Revised</label>
+                                    @(Html.DevExtreme().DateBox().InputAttr("aria-label", "DateRevised").Type(DateBoxType.Date).Value(DateTime.Now))
+                                </div>
+
+                                <div id=" DateRequested" class="col-6">
+                                    <label>Last Requested</label>
+                                    @(Html.DevExtreme().DateBox().InputAttr("aria-label", "DateRequested").Type(DateBoxType.Date).Value(DateTime.Now))
+                                </div>
+                                <div id=" genRemarksER" class="col-12 ta">
+                                    <label>General Remarks</label>
+                                    @(Html.DevExtreme().TextArea().InputAttr("aria-label", "genRemarksER"))
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--Reconciliation Request  -->
+                        <div id="recReq" class="row frameDiv">
+                            <button class="toggleBtn d-flex">
+                                <span>RECONCILIATION REQUEST</span>
+                                <span class="frame-icon ms-auto rotate-icon">▲</span>
+                            </button>
+
+
+                            <div class="row content">
+                                <div id=" DateRecReceived" class="col-4">
+                                    <label>Date Reconciliation Received</label>
+                                    @(Html.DevExtreme().DateBox().InputAttr("aria-label", "Date").Type(DateBoxType.Date).Value(DateTime.Now))
+                                </div>
+                                <div id=" estOfficer" class="col-4">
+                                    <label>Establishment Officer</label>
+                                    @(Html.DevExtreme().TextBox().Placeholder("Enter the Establishment Officer").InputAttr("aria-label", "estOfficer"))
+                                </div>
+                                <div id=" AssignedVerifs" class="col-4">
+                                    <label>Assigned Verifier(s)</label>
+                                    @(Html.DevExtreme().TextBox().Placeholder("Enter Assigned Verifier(s)").InputAttr("aria-label", "AssignedVerifs"))
+                                </div>
+                                <div id=" numErrors" class="col-4">
+                                    <label> No. of errors detected</label>
+                                    @(Html.DevExtreme().TextBox().Placeholder("Enter the number of errors").InputAttr("aria-label", "numErrors"))
+                                </div>
+                                <div id=" errorType" class="col-4">
+                                    <label>Type of Error</label>
+                                    `@(Html.DevExtreme().TextBox().Placeholder("Enter the type of Error").InputAttr("aria-label", "errorType"))
+                                </div>
+                                <div id=" Date" class="col-4">
+                                    <label>Date sent to IT officer for Correction</label>
+                                    @(Html.DevExtreme().DateBox().InputAttr("aria-label", "Date").Type(DateBoxType.Date).Value(DateTime.Now))
+                                </div>
+                                <div id=" Date" class="col-4">
+                                    <label>Date returned to Establishment Officer</label>
+                                    @(Html.DevExtreme().DateBox().InputAttr("aria-label", "Date").Type(DateBoxType.Date).Value(DateTime.Now))
+                                </div>
+                                <div id=" Date" class="col-4">
+                                    <label>Date sent to Chief for Approval</label>
+                                    @(Html.DevExtreme().DateBox().InputAttr("aria-label", "Date").Type(DateBoxType.Date).Value(DateTime.Now))
+                                </div>
+
+                                <div id=" Date" class="col-4">
+                                    <label>Date Approved by Chief</label>
+                                    @(Html.DevExtreme().DateBox().InputAttr("aria-label", "Date").Type(DateBoxType.Date).Value(DateTime.Now))
+                                </div>
+                                <div id=" taTime" class="col-6">
+                                    <label>Reconciliation turnaround time</label>
+                                    @(Html.DevExtreme().TextBox().Placeholder("Enter the Business Days taken").InputAttr("aria-label", "taTime"))
+                                </div>
+                                <div id="reconStatus" class="col-6">
+                                    <label>Reconciliation Status</label>
+                                    @(Html.DevExtreme().SelectBox().Placeholder("Select Status").InputAttr("aria-label", "recStat").DataSource(new[] { "Reconciled", "Unreconciled", "Pending" }))
+                                </div>
+
+                                <!--submitReqBtnsRec-->
+                                <div id="subBtnsDiv" class="row">
+                                    <div id="addBtn" class="doneBtn col-6">
+                                        @(Html.DevExtreme().Button().Icon("plus")
+                                            .Text("Add Record")
+                                            .Type(ButtonType.Success).ElementAttr(new { @class = "button-custom" })
+                                            .UseSubmitBehavior(true))
+                                    </div>
+
+
+                                    <div class="doneBtn col-6">
+                                        @(Html.DevExtreme().Button()
+                                            .Icon("trash")
+                                            .Text("Remove Record")
+                                            .Type(ButtonType.Default).ElementAttr(new { @class = "button-custom" })
+                                            .UseSubmitBehavior(false))
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!--MyHR+ Schedule-->
+                        <div id="myHr" class="row frameDiv">
+                            <button class="toggleBtn d-flex">
+                                <span>MYHR+ SCHEDULE</span>
+                                <span class="frame-icon ms-auto rotate-icon">▲</span>
+                            </button>
+
+
+                            <div class="row content">
+
+                                <div id=" classGrade" class="col-4">
+                                    <label>Classification Grade</label>
+                                    @(Html.DevExtreme().TextBox().Placeholder("Enter the Classification Grade").InputAttr("aria-label", "classGrade"))
+                                </div>
+                                <div id=" opDuration" class="col-4">
+                                    <label>Duration of Post Operation</label>
+                                    @(Html.DevExtreme().TextBox().Placeholder("Enter the Duration of Operation").InputAttr("aria-label", "opDuration"))
+                                </div>
+                                <div id=" startDate" class="col-4">
+                                    <label>Start Date</label>
+                                    @(Html.DevExtreme().DateBox().InputAttr("aria-label", "Date").Type(DateBoxType.Date).Value(DateTime.Now))
+                                </div>
+                                <div id="endDate" class="col-6">
+                                    <label>End Date</label>
+                                    @(Html.DevExtreme().DateBox().InputAttr("aria-label", "Date").Type(DateBoxType.Date).Value(DateTime.Now))
+                                </div>
+                                <div id=" taTime" class="col-6">
+                                    <label>Temporary Post No (Generated by CMEB)</label>
+                                    @(Html.DevExtreme().TextBox().Placeholder("Enter the Temporary Post Number").InputAttr("aria-label", "taTime"))
+                                </div>
+
+                                <div id=" genRemarksER" class="col-12 ta">
+                                    <label>General Remarks</label>
+                                    @(Html.DevExtreme().TextArea().InputAttr("aria-label", "genRemarksER"))
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--postAudit-->
+                        <div id="postAudit" class="row frameDiv ta">
+                            <button class="toggleBtn d-flex">
+                                <span>POST AUDIT</span>
+                                <span class="frame-icon ms-auto rotate-icon">▲</span>
+                            </button>
+
+
+                            <div class=" row content">
+                                <div id=" variances" class="col-6">
+                                    <label>Variances</label>
+                                    @(Html.DevExtreme().TextArea().InputAttr("aria-label", "variance"))
+                                </div>
+                                <div id=" varianceJustification" class="col-6">
+                                    <label>Justification for variances</label>
+                                    @(Html.DevExtreme().TextArea().InputAttr("aria-label", "varianceJustification"))
+                                </div>
+                                <div id=" auditFindings" class="col-6">
+                                    <label>Audit Findings</label>
+                                    @(Html.DevExtreme().TextArea().InputAttr("aria-label", "auditFindings"))
+                                </div>
+                                <div id=" auditRecommendation" class="col-6">
+                                    <label>Audit Recommendation</label>
+                                    @(Html.DevExtreme().TextArea().InputAttr("aria-label", "auditRecommendation"))
+                                </div>
+                                <div id="currentJD" class="col-12">
+                                    <label>Is current Job Description available?</label>
+                                    @(Html.DevExtreme().SelectBox().Placeholder("Choose Yes or No").InputAttr("aria-label", "currentJD").DataSource(new[] { "Yes", "No" }))
+                                </div>
+                                <div id=" genRemarksPA " class="col-12 ta">
+                                    <label>General Remarks</label>
+                                    @(Html.DevExtreme().TextArea().InputAttr("aria-label", "genRemarks"))
+                                </div>
+                                <!--submitReqBtnsDiv-->
+                                <div id="subBtnsDiv2" class="row">
+                                    <div id="addBtn2" class="doneBtn col-6">
+                                        @(Html.DevExtreme().Button().Icon("plus")
+                                            .Text("Add Record")
+                                            .Type(ButtonType.Success).ElementAttr(new { @class = "button-custom" })
+                                            .UseSubmitBehavior(true))
+                                    </div>
+
+
+                                    <div class="doneBtn col-6">
+                                        @(Html.DevExtreme().Button()
+                                            .Icon("trash")
+                                            .Text("Remove Record")
+                                            .Type(ButtonType.Default).ElementAttr(new { @class = "button-custom" })
+                                            .UseSubmitBehavior(false))
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--Organizational Review-->
+                        <div id="orgRev" class="row frameDiv">
+                            <button class="toggleBtn d-flex">
+                                <span>ORGANIZATIONAL REVIEW</span>
+                                <span class="frame-icon ms-auto rotate-icon">▲</span>
+                            </button>
+
+
+                            <div class="row content">
+
+                                <div id=" descriptionOrg" class="col-6 ta">
+                                    <label>Description</label>
+                                    @(Html.DevExtreme().TextArea().InputAttr("aria-label", "genRemarksER"))
+                                </div>
+                                <div id=" genRemarksOR" class="col-6 ta">
+                                    <label>General Remarks</label>
+                                    @(Html.DevExtreme().TextArea().InputAttr("aria-label", "genRemarksOR"))
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--jobAnalysis eval-->
+                        <div id="jobAnalysis" class="row frameDiv">
+                            <button class="toggleBtn d-flex">
+                                <span>JOB ANALYSIS/EVALUATION</span>
+                                <span class="frame-icon ms-auto rotate-icon">▲</span>
+                            </button>
+
+
+                            <div class="row content">
+
+                                <div id=" tlName" class="col-4">
+                                    <label> Team Lead Name  </label>
+                                    @(Html.DevExtreme().TextBox().InputAttr("aria-label", "tlName"))
+                                </div>
+                                <div id=" tlJobTitle" class="col-4">
+                                    <label> Team Lead Title  </label>
+                                    @(Html.DevExtreme().TextBox().InputAttr("aria-label", "tlJobTitle"))
+                                </div>
+                                <div id=" tlGrade" class="col-4">
+                                    <label> Team Lead Grade  </label>
+                                    @(Html.DevExtreme().TextBox().InputAttr("aria-label", "tlGrade"))
+                                </div>
+                                <div id=" reportsNumber" class="col-6">
+                                    <label> Number of Reports  </label>
+                                    @(Html.DevExtreme().TextBox().InputAttr("aria-label", "reportsNumber"))
+                                </div>
+                                <div id=" empInfo" class="col-6">
+                                    <label> Employee/ Job Holder Infromation  </label>
+                                    @(Html.DevExtreme().TextBox().InputAttr("aria-label", "empInfo"))
+                                </div>
+                                <div id=" posPurpose" class="col-6 ta">
+                                    <label>Position Purpose</label>
+                                    @(Html.DevExtreme().TextArea().InputAttr("aria-label", "posPurpose"))
+                                </div>
+                                <div id=" keyOutput" class="col-6 ta">
+                                    <label>Key Output</label>
+                                    @(Html.DevExtreme().TextArea().InputAttr("aria-label", "keyOutput"))
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--Technical Advice-->
+                        <div id="techAdvice" class="row frameDiv">
+                            <button class="toggleBtn d-flex">
+                                <span>TECHNICAL ADVICE</span>
+                                <span class="frame-icon ms-auto rotate-icon">▲</span>
+                            </button>
+
+
+                            <div class="row content">
+
+                                <div id=" reqRecDateTA" class="col-4">
+                                    <label>Date Request Received</label>
+                                    @(Html.DevExtreme().DateBox().InputAttr("aria-label", "Date").Type(DateBoxType.Date).Value(DateTime.Now))
+                                </div>
+                                <div id=" dueDateTA" class="col-4">
+                                    <label>Due Date of Response</label>
+                                    @(Html.DevExtreme().DateBox().InputAttr("aria-label", "Date").Type(DateBoxType.Date).Value(DateTime.Now))
+                                </div>
+                                <div id=" dateRespSent" class="col-4">
+                                    <label>Date Response Sent</label>
+                                    @(Html.DevExtreme().DateBox().InputAttr("aria-label", "Date").Type(DateBoxType.Date).Value(DateTime.Now))
+                                </div>
+                                <div id=" responseTA" class="col-6 ta">
+                                    <label>Recommendations (response)</label>
+                                    @(Html.DevExtreme().TextArea().InputAttr("aria-label", "responseTA"))
+                                </div>
+                                <div id=" summaryTA" class="col-6 ta">
+                                    <label>Summary of  Requested Advice</label>
+                                    @(Html.DevExtreme().TextArea().InputAttr("aria-label", "summaryTA"))
+                                </div>
+                                <div id=" remarksTA" class="col-12 ta">
+                                    <label>Remarks</label>
+                                    @(Html.DevExtreme().TextArea().InputAttr("aria-label", "remarksTA"))
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--Quality Control-->
+                        <div id="qltyControl" class="row frameDiv">
+                            <button class="toggleBtn d-flex">
+                                <span>QUALITY CONTROL</span>
+                                <span class="frame-icon ms-auto rotate-icon">▲</span>
+                            </button>
+
+
+
+                            <div class="row content">
+
+                                <p></p>
+                                <p></p>
+                            </div>
+                        </div>
+
+                        <!--Establishment Maintenance-->
+                        <div id="estabMaintenance" class="row frameDiv">
+                            <button class="toggleBtn d-flex">
+                                <span>ESTABLISHMENT MAINTENANCE</span>
+                                <span class="frame-icon ms-auto rotate-icon">▲</span>
+                            </button>
+
+
+
+                            <div class="row content">
+
+                                <p></p>
+                                <p></p>
+                            </div>
+                        </div>
+
+                        <!--buttons to save and continue-->
+                        <div id="subBtnsDiv3" class="row">
+                            <div id="addBtn2" class="doneBtn col-6">
+                                @(Html.DevExtreme().Button().Icon("save")
+                                    .Text("Save & Close")
+                                    .Type(ButtonType.Success).ElementAttr(new { @class = "button-custom" })
+                                    .UseSubmitBehavior(true))
+                            </div>
+
+
+                            <div class="doneBtn col-6">
+                                <a href="UploadFiles" class="btn  button-custom">Continue <i class='far fa-arrow-alt-circle-right'></i></a>
+                            </div>
+
+                        </div>
+
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+        <!-- End Card Body -->
+    </div>
+    <!-- End Card -->
+</div>
+<style>
+
+    .content {
+        visibility: hidden;
+        height: 0;
+        overflow: hidden;
+        transition: height 0.3s ease, visibility 0.3s ease;
+    }
+
+        .content.show {
+            visibility: visible;
+            height: auto;
+        }
+
+    .toggleBtn {
+        display: block;
+        width: 100%;
+        text-align: left;
+        background-color: #004869;
+        color: white;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+        .toggleBtn:hover {
+            background-color: #008060;
+        }
+
+    .rotate-icon {
+        display: inline-block;
+        transition: transform 0.3s ease;
+    }
+
+        .rotate-icon.rotated {
+            transform: rotate(180deg);
+        }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".toggleBtn").forEach(function (button) {
+            button.addEventListener("click",function (event) {
+                event.preventDefault()
+                const icon = button.querySelector('.frame-icon');
+                const content = button.nextElementSibling;
+                content.classList.toggle("show");
+                icon.classList.toggle('rotated');                
+            });
+        });
+    });
+</script>

@@ -1,0 +1,278 @@
+﻿
+/*START OF COLLAPSIBLE FRAMES*/
+
+/*body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+}
+
+.frameDiv {
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    padding: 10px;
+}*/
+
+/* Initially hide the content */
+/*.content {
+    display: none;*/ /* Content is hidden initially */
+/*margin-top: 10px;
+}*/
+
+/* Button styles */
+/*.toggleBtn {
+    background-color: #004869;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+    .toggleBtn:focus {
+        outline: none;
+    }*/
+
+/* Show the content when active */
+/*.frameDiv.active .content {
+    display: block;
+}*/
+
+/* Change button color when the content is visible (active) */
+/*.frameDiv.active .toggleBtn {
+    background-color: #F9D72B;
+}*/
+
+/* Change button symbol when content is active */
+/*.frameDiv.active .toggleBtn::after {
+        content: '-';
+    }*/
+
+/* When inactive, display the plus sign */
+/*.frameDiv:not(.active) .toggleBtn::after {
+    content: '+';
+}*/
+
+/*END OF COLLAPSIBLE FRAMES*/
+
+/*reqSpecs and submission areas Section*/
+
+
+#dateCreate label {
+    text-align: left;
+    display: block;
+}
+
+label {
+    font-weight: bold; /* Make labels bold */
+    margin-bottom: 5px; /* Add spacing below the label */
+}
+
+
+/*reqSpecs and submission areas Section*/
+
+.card-header
+{
+    color:white;
+}
+#reqSpecs {
+    border: none;
+}
+#subBtnsDiv3 {
+    border: none;
+}
+
+#subMethod {
+    display: none;
+}
+#selectReqDiv {
+    display: none;
+}
+#dateCreate {
+    margin-left: auto; /* Pushes the div to the right */
+    text-align: right; /* Aligns content inside to the right */
+/*    background-color:aquamarine;*/
+}
+
+/*End of reqSpecs*/
+#spacer {
+    padding: 35px;
+    border: none;
+}
+
+#createReqDiv 
+{
+    border: white;
+}
+
+/*for required fields*/
+.required-input:required {
+    border-left: 5px solid red; /* Red left border for required input */
+}
+
+.required-input:focus {
+    outline: none; /* Remove default outline */
+    border-color: #007bff; /* Change border color on focus */
+}
+
+#formHeader {
+    border: 1px solid #e0e0e0;
+    border-radius: 0;
+    background: #004869;
+    color: white;
+    font-size: 30px;
+    text-align: center;
+    padding-top: 20px;
+}
+   
+.card-body {
+/*    border: 1px solid #e0e0e0;*/
+    border-radius: 0;
+    padding:0;
+}
+
+.row {
+    position: relative;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    margin: 40px 0 30px 0;
+    padding: 10px;
+    box-sizing: border-box;
+
+/*    background: white;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);*/
+   
+}
+    .row > .row 
+    {
+        border: none;
+        margin: 10px 0; 
+        padding: 5px; 
+    }
+
+
+#reqForm {
+    overflow: hidden;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+.label {
+    /*    position: absolute;
+    top: -12px;
+    left: 10px;*/
+    /*    padding: 0 5px;*/
+/*    font-weight: bold;
+    width: fit-content;*/
+    background: #004869;
+    color:white;
+    width:100%;
+}
+
+.remove-btn {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+    .remove-btn:hover {
+        background-color: #cc0000;
+    }
+
+
+.doneBtn {
+    margin-bottom: 10px;
+    margin-top: 10px;
+    width: 150px;
+/*    background-color:aquamarine;*/
+}
+/* css for save and continue button frame*/
+.button-container {
+    /*    display: flex;*/
+    /*    justify-content: space-between;*/
+    margin-top: 20px;
+}
+
+.button-custom {
+    margin-bottom: 10px;
+    background-color: #F9D72B;
+    width: 150px;
+}
+
+/*spacing the fields in the frame*/
+.col-12 {
+    margin: 20px 0 20px 0; /* top right bottom left */
+}
+.col-6 {
+    margin: 20px 0 20px 0; /* top right bottom left */
+}
+.col-4 
+{
+    margin: 10px 0 10px 0; /* top right bottom left */
+}
+.col-3 {
+    margin: 20px 0 20px 0; /* top right bottom left */
+}
+/*text area sizing*/
+.topSection
+{
+    border-color:white;
+    padding:0
+}
+.ta textarea {
+    width: 100%;
+    height: 150px;
+    font-size: 16px;
+    padding: 10px;
+}
+
+
+/* SIDE BAR */
+.sidebar {
+    background-color: white;
+    color: #004869;
+    border: 1px solid #004869;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+.sidebar-header {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    text-align: center;
+    background-color: #004869;
+    color: white;
+    border: 1px solid #004869; /* Add border like the tabs */
+    padding: 10px; /* Add padding for consistent spacing */
+    border-radius: 5px; /* Match the rounded corners of the tabs */
+}
+
+.sidebar-tabs {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+    .sidebar-tabs li
+    {
+        border: 1px solid #004869;
+        padding: 10px;
+        margin-bottom: 10px;
+        background-color: white;
+        color: #004869;
+        text-align: center;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+        .sidebar-tabs li:hover {
+            background-color: #004869;
+            
+            color: white;
+        }

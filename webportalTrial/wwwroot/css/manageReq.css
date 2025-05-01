@@ -1,0 +1,51 @@
+﻿
+#cmebDB {
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    border-radius:initial;
+   
+}
+
+#cmebServs {
+    padding-bottom: 2em;
+    
+}
+
+.custom-btn
+{
+    background-color:#F9D72B;
+}
+    .custom-btn:hover {
+        border-color: #004869;
+    }
+
+
+.card p-4 {
+    border-color: #004869;
+    width: 55%;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.label {
+    position: absolute;
+    top: -10px; /* Moves the label up to sit on the border */
+    left: 50%;
+    transform: translateX(-50%);
+    background: white; /* Matches the background to blend in */
+    padding: 0 5px;
+    font-size: 20px;
+    color: black;
+
+}
+
+#cmebHeader {
+    background: #004869;
+    color: white;
+    font-size: 30px;
+    text-align: center;
+}
+

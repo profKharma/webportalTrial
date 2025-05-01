@@ -1,0 +1,18 @@
+﻿body {
+    
+}
+h1 {
+    font-size: 20px;
+    font-display: block;
+    align-self: center;
+}
+h2 {
+    font-size: 20px;
+    font-display: block;
+    align-self:center;
+}
+
+.Container {
+    padding-right: 84px;
+    padding-left: 84px;
+}

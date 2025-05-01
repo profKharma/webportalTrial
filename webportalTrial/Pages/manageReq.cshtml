@@ -1,0 +1,84 @@
+﻿@page
+@using webportalTrial.Models
+@model webportalTrial.Pages.manageReqModel
+@{
+}
+
+<link href="~/css/manageReq.css" rel="stylesheet" />
+
+
+    <!--Section for cmeb service header-->
+    <div id="cmebHeader"><p id="cmebHeaderTxt" class="pb-4">CORPORATE MANAGEMENT ESTABLISHMENT BRANCH DASHBOARD </p></div>
+    <!--Section for cmeb service buttons-->
+    <div id="cmebServs" class="row">
+        <div class="col-2 pt-2">
+            <a href="createRequest" class="btn  custom-btn">Create a Request</a>
+        </div>
+        <div class="col-2 pt-2">
+            <a href="submittedReqs" class="btn  custom-btn">Case Submissions</a>
+        </div>
+        <div class="col-2 pt-2">
+            <a href="pendingReqs" class="btn  custom-btn" id="pendingBtn">Requests Pending</a>
+        </div>
+    </div>
+
+    <div id="cmebDB" class="card p-4">
+        <span class="label"> CREATED REQUESTS </span>
+        <div id="dynamicContent"></div>
+    </div>
+
+
+@* <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> *@
+@* <script> *@
+@*     $(document).ready(function () { *@
+@*         $('#pendingBtn').click(function (e) { *@
+@*             e.preventDefault(); *@
+@*             $('#dynamicContent').load('/pendingReqs #pendingRequestsGrid', function () { *@
+@*                 // Initialize the DataGrid after loading the content *@
+@*                 DevExpress.ui.dxDataGrid($('#pendingRequestsGrid'), { *@
+@*                     dataSource: new DevExpress.data.CustomStore({ *@
+@*                         load: function () { *@
+@*                             return $.getJSON('/SampleData/GetPendingRequests'); *@
+@*                         } *@
+@*                     }), *@
+@*                     showBorders: true, *@
+@*                     paging: { *@
+@*                         pageSize: 10 *@
+@*                     }, *@
+@*                     filterRow: { *@
+@*                         visible: true *@
+@*                     }, *@
+@*                         headerFilter: { *@
+@*                         visible: true *@
+@*                     }, *@
+@*                     groupPanel: { *@
+@*                         visible: true *@
+@*                     }, *@
+@*                     grouping: { *@
+@*                         autoExpandAll: false *@
+@*                     }, *@
+@*                     remoteOperations: true, *@
+@*                     columns: [ *@
+@*                         { dataField: 'TrackingNumber', caption: 'Tracking Number' }, *@
+@*                         { dataField: 'MDAs', caption: 'MDAs' }, *@
+@*                         { dataField: 'RequestType', caption: 'Request Type' }, *@
+@*                         { dataField: 'Status', caption: 'Status' }, *@
+@*                         { dataField: 'StartDate', caption: 'Start Date' }, *@
+@*                         { dataField: 'EndDate', caption: 'End Date' }, *@
+@*                         { dataField: 'PriorityLevel', caption: 'Priority Level' }, *@
+@*                         { dataField: 'UpdateRequest', caption: 'Update Request' }, *@
+@*                         { dataField: 'CommentsReason', caption: 'Comments/Reason' } *@
+@*                     ], *@
+@*                         summary: { *@
+@*                         totalItems: [ *@
+@*                             { column: 'MDAs', summaryType: 'count' } *@
+@*                         ], *@
+@*                         groupItems: [ *@
+@*                             { summaryType: 'count' } *@
+@*                         ] *@
+@*                     } *@
+@*                 }); *@
+@*             }); *@
+@*         }); *@
+@*     }); *@
+@* </script> *@

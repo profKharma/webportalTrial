@@ -1,0 +1,27 @@
+@page
+@model webportalTrial.Pages.homeModel
+@{
+}
+
+<link href="~/css/manageReq.css" rel="stylesheet" />
+
+
+<!--Section for cmeb service header-->
+<div id="cmebHeader"><p id="cmebHeaderTxt" class="pb-4">CORPORATE MANAGEMENT ESTABLISHMENT BRANCH DASHBOARD </p></div>
+<!--Section for cmeb service buttons-->
+<div id="cmebServs" class="row">
+    <div class="col-2 pt-2">
+        <a href="createRequest" class="btn  custom-btn">Create a Request</a>
+    </div>
+    <div class="col-2 pt-2">
+        @* <a href="submittedReqs" class="btn  custom-btn">Case Submissions</a> *@
+    </div>
+    <div class="col-2 pt-2">
+        @* <a href="pendingReqs" class="btn  custom-btn" id="pendingBtn">Requests Pending</a> *@
+    </div>
+</div>
+
+<div id="cmebDB" class="card p-4">
+    <span class="label"> CREATED REQUESTS </span>
+    <div id="dynamicContent"></div>
+</div>

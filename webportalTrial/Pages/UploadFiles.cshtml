@@ -1,0 +1,41 @@
+﻿@page
+@model webportalTrial.Pages.UploadFilesModel
+@{
+    // Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload Files</title>
+    <link href="~/css/createRequest.css" rel="stylesheet" />
+    <link href="~/css/UploadFiles.css" rel="stylesheet" />
+    
+</head>
+<body>
+    <div class="" id="uploadFilesModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Upload Files</h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="files">Select files:</label>
+                            <input type="file" id="files" name="files" multiple class="form-control" />
+                        </div>
+
+                        <div id="fileSubs">
+                        <button type="submit" class="btn btn-primary">Upload</button>
+                        <button type="button" class="btn btn-primary" id="deleteBtn">Delete</button>
+                        <button type="button" class="btn btn-primary" id="submitBtn">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

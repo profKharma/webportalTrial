@@ -1,0 +1,136 @@
+﻿@page
+@model webportalTrial.Pages.postAuditFormModel
+@{
+}
+
+<link href="~/css/postAuditStyles.css" rel="stylesheet" />
+<form id="postAudit" method="post">
+
+    <div id ="cForm" class="container"> 
+    <!--Section to select submission method-->
+
+    <!--Section for MDA Details-->
+
+<div id="mdaDetes" class="row pt-3">
+            <h1>MDA Details </h1>
+        
+    <div id=" Ministry" class="col-3">
+            <label>Ministry</label>
+            @(Html.DevExtreme().DropDownBox().Placeholder("Select the Ministry").InputAttr("aria-label", "Ministry"))
+    </div>
+      
+    <div id=" Department" class="col-3">
+            <label>Department</label>
+            @(Html.DevExtreme().DropDownBox().Placeholder("Select the Department").InputAttr("aria-label", "Department"))
+    </div>
+
+    <div id=" Division" class="col-3">
+            <label>Division</label>
+            @(Html.DevExtreme().DropDownBox().Placeholder("Select the Division").InputAttr("aria-label", "Division"))
+    </div>
+
+    <div id=" Unit" class="col-3">
+            <label>Unit</label>
+            @(Html.DevExtreme().DropDownBox().Placeholder("Select the Unit").InputAttr("aria-label", "Unit"))
+    </div>
+
+</div>
+
+    <!--Section for Employee and Post Details-->
+
+        <div id="empPostDetes1" class="row pt-3">
+            <h1>Employee and Post Details </h1>
+        <div id=" postNum" class="col-3">
+            <label>Post Number</label>
+            @(Html.DevExtreme().TextBox().Placeholder("Enter Post Number (if applicable)").InputAttr("aria-label", "postNum"))
+        </div>
+
+        <div id=" postGrade" class="col-3">
+            <label>Post Name</label>
+                @(Html.DevExtreme().TextBox().Placeholder("Enter Post Grade").InputAttr("aria-label", "postGrade"))
+        </div>
+
+        <div id=" postTitle" class="col-3">
+            <label>Post Title</label>
+            @(Html.DevExtreme().TextBox().Placeholder("Enter Post Title").InputAttr("aria-label", "postTitle"))
+        </div>
+
+        <div id=" Location" class="col-3">
+            <label>Location</label>
+            @(Html.DevExtreme().TextBox().Placeholder("Enter the Location").InputAttr("aria-label", "Location"))
+        </div>
+    </div>
+
+    <div id="empPostDetes2" class="row">
+
+        <div id=" classificationEstablished" class="col-3">
+            <label>classification Established</label>
+            @(Html.DevExtreme().DropDownBox().Placeholder("Enter the classification").InputAttr("aria-label", "classificationEstablished"))
+        </div>
+
+        <div id=" classificationOther" class="col-3">
+            <label>classification Other(if different)</label>
+            @(Html.DevExtreme().TextBox().Placeholder("Other classification").InputAttr("aria-label", "classificationOther"))
+        </div>
+
+        <div id=" postType" class="col-3">
+            <label>Post Type</label>
+                @(Html.DevExtreme().SelectBox().ID("postType")
+                    .InputAttr("aria-label", "Post Type")
+                    .DataSource(new[] { "Temporary", "Permanent" }))
+        </div>
+
+        <div id=" postStatus" class="col-3">
+            <label>Post Status</label>
+                @(Html.DevExtreme().SelectBox().ID("postStatus")
+                    .InputAttr("aria-label", "Post Status")
+                    .DataSource(new[] { "Filled", "Vacant" }))
+        </div>
+    </div>
+
+    <div id="empPostTextA" class="row">
+
+        <div id=" empType" class="col-3">
+            <label>Employee Type</label>
+                @(Html.DevExtreme().SelectBox().ID("empType")
+                    .InputAttr("aria-label", "employee Type")
+                    .DataSource(new[] { "Temporary", "Permanent","Contract" }))
+        </div>
+
+        <div id="empStatus" class="col-3">
+            <label>Employee Status</label>
+            @(Html.DevExtreme().DropDownBox().Placeholder("Enter Employee Status").InputAttr("aria-label", "empStatus"))
+        </div>
+
+
+    </div>
+
+    <div class="textAreas">
+            <div id=" varianceJustification" class="col-6">
+                <label>Justification for variances</label>
+                @(Html.DevExtreme().TextArea().InputAttr("aria-label", "varianceJustification"))
+            </div>
+
+            <div id=" genRemarks" class="col-6">
+                <label>General Remarks</label>
+                @(Html.DevExtreme().TextArea().InputAttr("aria-label", "genRemarks"))
+            </div>
+    </div>
+
+    <!--Section for files and submission-->
+        <div class="doneBtn pt-3">
+            @(Html.DevExtreme().Button()
+                .Text("Add Record")
+                .Type(ButtonType.Success)
+                .UseSubmitBehavior(true))
+        </div>
+
+    </div>
+    <div class="doneBtn pt-3">
+        @(Html.DevExtreme().Button()
+            .Icon("check")
+            .Text("Submit")
+            .Type(ButtonType.Success)
+            .UseSubmitBehavior(true))
+    </div>
+</form>

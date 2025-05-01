@@ -1,0 +1,41 @@
+﻿body {
+}
+
+
+#servsPic {
+    text-align: center;
+    border: 5px black;
+}
+
+#services{
+    display:flex;
+    flex-direction:row;
+    justify-content:center;
+}
+
+#services {
+    margin-top: 50px;
+    
+}
+
+.card-body {
+    border-color: gray;
+}
+.box {
+    width: 250px;
+    margin: 0px 10px;
+   
+}
+    .box img {
+        display: block;
+        width: 100%;
+        border-radius: 5px;
+        transition: 1s;
+      
+    }
+    .box:hover {
+        transform: scale(1.15);
+      
+        z-index: 1;
+
+    }
