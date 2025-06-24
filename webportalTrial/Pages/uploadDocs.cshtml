@@ -1,0 +1,276 @@
+﻿@page
+@model webportalTrial.Pages.uploadDocsModel
+@{
+}
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Upload Documents</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Link common CSS files -->
+    <link rel="stylesheet" href="css/vendor.css" />
+    <link rel="stylesheet" href="css/bootstrap-icons.css" />
+    <link rel="stylesheet" href="css/theme.min.css" />
+    <link rel="stylesheet" href="css/custom-theme.css" />
+    <style>
+        /* Basic styles - copy relevant styles from other pages if needed */
+        body {
+            padding-top: 80px; /* Adjust if header height changes */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        main {
+            flex: 1; /* Ensure main content takes up available space */
+        }
+
+        .spacer-top {
+            padding-top: 8rem; /* Consistent spacing */
+            margin-bottom: 2rem;
+        }
+
+        .bg-primary-blue {
+            background-color: #004869;
+        }
+
+        .button-custom { /* Style for action buttons */
+            width: 100%;
+            padding: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .upload-container {
+            max-width: 700px; /* Limit width */
+            margin: auto; /* Center container */
+            padding: 2rem;
+            background-color: #fff;
+            border-radius: .375rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .form-label {
+            margin-top: 0.5rem;
+            font-weight: 500;
+        }
+
+        #subBtnsDiv {
+            margin-top: 1.5rem;
+        }
+    </style>
+</head>
+
+    <main id="content">
+        <div class="container spacer-top">
+            <!-- Card for Upload Section -->
+            <div class="card card-lg upload-container">
+                <!-- Header -->
+                <div class="card-header bg-primary-blue text-white">
+                    <h2 class="card-title h4 text-white mb-0">Upload Additional Documents</h2>
+                </div>
+                <!-- End Header -->
+                <!-- Card Body -->
+                <div class="card-body">
+                    <form id="uploadForm" method="post" enctype="multipart/form-data">
+                        <!-- Added enctype -->
+                    <!-- Success Message Placeholder -->
+                    <div id="uploadSuccessMessage" class="alert alert-success alert-dismissible fade" role="alert" style="display: none; margin-bottom: 1rem;">
+                        Documents uploaded successfully!
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+
+                    <div class="mb-3">
+                        <h5 class="mb-3">Request Tracking Number: <span id="trackingNumber" class="fw-normal">TRACK-PROG-006</span></h5>
+                        <p>Upload any additional or outstanding documents required for this request.</p>
+                    </div>
+
+                    <!-- Request Details Section -->
+                    <div class="mb-3" id="requestDetailsSection">
+                        <div class="card border-primary mb-3">
+                            <div class="card-header bg-primary text-white">Request Details</div>
+                            <div class="card-body">
+                                <div class="row mb-2">
+                                    <div class="col-md-3"><strong>MDA:</strong> <span id="detailMDA">-</span></div>
+                                    <div class="col-md-3"><strong>Tracking Number:</strong> <span id="detailTrackingNumber">-</span></div>
+                                    <div class="col-md-3"><strong>Request Type:</strong> <span id="detailRequestType">-</span></div>
+                                    <div class="col-md-3"><strong>Status:</strong> <span id="detailStatus">-</span></div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-md-3"><strong>Start Date:</strong> <span id="detailStartDate">-</span></div>
+                                    <div class="col-md-3"><strong>End Date:</strong> <span id="detailEndDate">-</span></div>
+                                    <div class="col-md-3"><strong>Assignee:</strong> <span id="detailAssignee">-</span></div>
+                                    <div class="col-md-3"><strong>Comments:</strong> <span id="detailComments">-</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Feedback Entry Section -->
+                    <div class="mb-3" id="feedbackEntrySection">
+                        <div class="card border-success mb-3">
+                            <div class="card-header bg-success text-white">Submit Feedback</div>
+                            <div class="card-body">
+                                <div class="row mb-2">
+                                    <div class="col-md-4">
+                                        <label for="feedbackDate" class="form-label">Date of Feedback</label>
+                                        @(Html.DevExtreme().DateBox()
+                                            .ID("feedbackDate")
+                                            .Name("feedbackDate")
+                                            .Type(DateBoxType.Date)
+                                            .InputAttr("aria-label", "Date of Feedback"))
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="feedbackTrackingNumber" class="form-label">Tracking Number</label>
+                                        @(Html.DevExtreme().TextBox()
+                                            .ID("feedbackTrackingNumber")
+                                            .Name("feedbackTrackingNumber")
+                                            .InputAttr("aria-label", "Tracking Number"))
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="applicationNumber" class="form-label">Application Number</label>
+                                        @(Html.DevExtreme().TextBox()
+                                            .ID("applicationNumber")
+                                            .Name("applicationNumber")
+                                            .InputAttr("aria-label", "Application Number"))
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-md-6">
+                                        <label for="feedbackType" class="form-label">Feedback</label>
+                                        @(Html.DevExtreme().SelectBox()
+                                            .ID("feedbackType")
+                                            .Name("feedbackType")
+                                            .Placeholder("Select")
+                                            .DataSource(new[] { "Appeal", "General Feedback" })
+                                            .InputAttr("aria-label", "Feedback"))
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label for="feedbackRemarks" class="form-label">Feedback Remarks</label>
+                                        @(Html.DevExtreme().TextArea()
+                                            .ID("feedbackRemarks")
+                                            .Name("feedbackRemarks")
+                                            .InputAttr("aria-label", "Feedback Remarks")
+                                            .Height(60))
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 text-end">
+                                        <button type="submit" class="btn btn-success">Submit Feedback</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="documentUpload" class="form-label">Select File(s)</label>
+                        @(Html.DevExtreme().FileUploader()
+                            .ID("documentUpload")
+                            .Name("documentUpload")
+                            .SelectButtonText("Select Files")
+                            .Multiple(true)
+                            .UploadMode(FileUploadMode.UseButtons)
+                            .InputAttr("aria-label", "Document Upload"))
+                        <small class="form-text text-muted">You can select multiple files to upload.</small>
+                    </div>
+
+                    <!-- Placeholder for listing uploaded files (requires backend) -->
+                    <div class="mb-4">
+                        <h6>Uploaded Files:</h6>
+                        <ul id="uploadedFilesList" class="list-group list-group-flush">
+                            <li class="list-group-item">No files uploaded yet.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div id="subBtnsDiv" class="row">
+                        <div class="col-6">
+                            <button type="submit" class="btn btn-success button-custom">
+                                <i class="bi bi-upload"></i> Upload Selected Files
+                            </button>
+                        </div>
+                        <div class="col-6">
+                            <a href="manageReq.html" class="btn btn-secondary button-custom">
+                                <i class="bi bi-arrow-left-circle"></i> Back to Manage Requests
+                            </a>
+                        </div>
+                    </div>
+
+                    </form>
+                </div>
+                <!-- End Card Body -->
+            </div>
+            <!-- End Card -->
+        </div>
+    </main>
+
+<!-- Include necessary vendor scripts -->
+<script src="js/vendor/theme.min.js"></script>
+<script src="js/vendor/hs-mega-menu.min.js"></script>
+<!-- Add other scripts if needed for header/footer/upload functionality -->
+<script>
+    // Basic script to get tracking number from URL (example)
+    document.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const trackingId = urlParams.get('id');
+        const trackingElement = document.getElementById('trackingNumber');
+        if (trackingId && trackingElement) {
+            trackingElement.textContent = trackingId;
+        } else if (trackingElement) {
+             trackingElement.textContent = 'N/A'; // Default if no ID found
+        }
+
+        // Add any JS needed for header/footer components here if copied from other pages
+         try {
+            if (typeof HSMegaMenu === 'function') {
+                new HSMegaMenu('.js-mega-menu', { /* options */ }).init();
+            }
+          } catch(e) { console.error("MegaMenu init error:", e); }
+
+
+        // Alert Notification Logic (similar to editReq.html)
+        const uploadForm = document.getElementById('uploadForm');
+        const successMessage = document.getElementById('uploadSuccessMessage');
+
+        if (uploadForm && successMessage) {
+            uploadForm.addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent actual form submission for this demo
+
+                // --- Simulate Upload Success ---
+                // In a real app, this would be inside a success callback from an AJAX request
+
+                // Show the success message
+                successMessage.style.display = 'block';
+                successMessage.classList.add('show');
+
+                // Scroll to the success message
+                successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                // Optional: Hide the message after a few seconds
+                setTimeout(() => {
+                    successMessage.classList.remove('show');
+                    // Use transitionend event listener for smoother hiding if Bootstrap JS is loaded
+                    // For simplicity here, just hide it directly after timeout
+                     setTimeout(() => { successMessage.style.display = 'none'; }, 150); // Wait for fade out
+                }, 3000); // Hide after 3 seconds
+
+
+                // Optional: Clear the file input after showing message
+                const fileInput = document.getElementById('documentUpload');
+                if (fileInput) {
+                    fileInput.value = ''; // Clear selected files
+                }
+
+                // Optional: Update the uploaded files list (basic example)
+                const uploadedList = document.getElementById('uploadedFilesList');
+                 if (uploadedList && uploadedList.firstElementChild.textContent.includes("No files")) {
+                     uploadedList.innerHTML = '<li class="list-group-item">SimulatedUpload.pdf</li>'; // Replace placeholder
+                 } else if (uploadedList) {
+                     // Append if needed, or implement more complex logic
+                 }
+                // --- End Simulation ---
+            });
+        }
+
+    });
+</script>

@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <title>Manage Requests | CMEB Dashboard</title>
+
+  <link rel="stylesheet" href="css/vendor.css" />
+  <link rel="stylesheet" href="css/waitMe.min.css" />
+  <link rel="stylesheet" href="css/bootstrap-icons.css" />
+  <link rel="stylesheet" href="css/theme.min.css" />
+  <link rel="stylesheet" href="css/hs-mega-menu.min.css" />
+  <link rel="stylesheet" href="css/custom-theme.css" />
+  <link rel="stylesheet" href="css/manageReq.css" />
+
+  <style>
+    body {
+      padding-top: 80px;
+    }
+
+    #cmebDB {
+      position: relative;
+      border: 1px solid #dee2e6;
+      border-radius: .25rem;
+    }
+
+    .label {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: white;
+      padding: 0 10px;
+      font-size: 1.1em;
+      font-weight: bold;
+      color: #004869;
+      white-space: nowrap;
+    }
+
+    /* --- Button Styling --- */
+
+    /* Base styles for custom buttons (can be general or specific) */
+    .custom-btn {
+       border-radius: .25rem; /* Ensure consistent rounding */
+       padding: .375rem .75rem; /* Standard BS padding */
+       font-size: 1rem; /* Standard BS font size */
+       transition: background-color 0.3s ease, box-shadow 0.2s ease, color 0.3s ease, border-color 0.3s ease;
+       text-align: center;
+       vertical-align: middle;
+       user-select: none;
+       line-height: 1.5;
+    }
+
+    /* Styles for the YELLOW button ("Manage Requests") */
+    .custom-btn:not(#reqSearchBtn) { /* Target buttons OTHER THAN the search button */
+        background-color: #ffc107;
+        color: #000;
+        border: none; /* Yellow button has no border in original */
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .custom-btn:not(#reqSearchBtn):hover {
+        background-color: #ffca2c;
+        color: #000;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+     }
+
+    /* --- Search Button Specific Styles --- */
+
+    /* Inactive/Disabled State (Default) */
+    #reqSearchBtn:disabled {
+        background-color: white;
+        color: #adb5bd; /* Lighter grey text for disabled state */
+        border: 1px solid #dee2e6; /* Light border */
+        cursor: not-allowed;
+        box-shadow: none; /* No shadow when disabled */
+        opacity: 0.8; /* Slightly faded appearance */
+    }
+
+    /* Active State (When enabled via JS - using class) */
+    #reqSearchBtn.btn-search-active {
+         background-color: #004869; /* Theme dark blue */
+         color: white;
+         border: 1px solid #00334e; /* Slightly darker border */
+         cursor: pointer;
+         box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Restore shadow */
+         opacity: 1;
+    }
+
+     #reqSearchBtn.btn-search-active:hover {
+         background-color: #00334e; /* Darker blue on hover */
+         border-color: #002233;
+     }
+
+    /* --- Other Styles --- */
+
+    .spacer-top {
+      margin-top: 50px;
+      padding-top: 8rem; /* 128px */
+    }
+
+    .bg-primary-blue {
+      background-color: #004869;
+    }
+
+    .border-top-yellow {
+      border-top: 1px solid #ffc107;
+    }
+
+    .text-cap {
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      font-weight: bold;
+    }
+
+    .link-sm {
+      font-size: 0.875rem;
+    }
+
+    .list-py-1 {
+      padding: 0.25rem 0;
+    }
+
+    .btn-soft-light {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+
+    .btn-soft-light:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+      color: #fff;
+    }
+
+    .content-space-1 {
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+    }
+
+    /* Improved table look and feel */
+    #manageRequestsGrid {
+      border-collapse: separate;
+      border-spacing: 0;
+      width: 100%;
+      border-radius: 0.375rem;
+      overflow: hidden;
+      background-color: #fff;
+      box-shadow: 0 0 0 1px #dee2e6;
+    }
+
+    /* Header styling */
+    #manageRequestsGrid thead {
+      background-color: #f8f9fa;
+      color: #343a40;
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    /* Header cell tweaks */
+    #manageRequestsGrid th {
+      padding: 0.75rem 1rem;
+      vertical-align: middle;
+      border-bottom: 1px solid #dee2e6;
+      text-align: center;
+    }
+
+    /* Table body rows */
+    #manageRequestsGrid td {
+      padding: 0.75rem 1rem;
+      vertical-align: middle;
+      border-bottom: 1px solid #f1f1f1;
+      background-color: #fff;
+      transition: background-color 0.2s ease;
+    }
+
+    /* Hover effect for rows */
+    #manageRequestsGrid tbody tr:hover {
+      background-color: #f4f8fc;
+    }
+
+    /* Text alignment for entire table */
+    #manageRequestsGrid td,
+    #manageRequestsGrid th {
+      text-align: center;
+    }
+
+    /* Action icon styles */
+    .edit-icon, .delete-icon {
+      color: #004869;
+      font-size: 1.2rem;
+      margin: 0 0.5rem;
+      transition: color 0.2s ease;
+    }
+
+    .edit-icon:hover {
+      color: #0d6efd;
+    }
+
+    .delete-icon:hover {
+      color: #dc3545;
+    }
+
+    /* Optional Zebra Striping */
+    #manageRequestsGrid tbody tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+    #manageRequestsGrid tbody tr:nth-child(even):hover { /* Ensure hover overrides zebra */
+      background-color: #f4f8fc;
+    }
+
+    /* Add subtle inner glow to search bar */
+    #SearchField {
+      box-shadow: inset 0 1px 2px rgba(0, 123, 255, 0.1); /* Very light blue inner shadow */
+      transition: box-shadow 0.2s ease;
+    }
+    #SearchField:focus {
+      box-shadow: inset 0 1px 3px rgba(0, 123, 255, 0.15); /* Slightly stronger on focus */
+    }
+
+    tr.fade-out {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+  </style>
+</head>
+
+<body id="pageBody">
+    <!-- HEADER -->
+    <header id="header" class="navbar navbar-expand-lg navbar-end navbar-absolute-top navbar-light bg-white" style="box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+      <div class="container">
+        <nav class="js-mega-menu navbar-nav-wrap">
+          <a class="navbar-brand animate__animated animate__pulse" href="#">
+            <img class="navbar-brand-logo" src="images/Logo-Site-1b.png" alt="MOFPS Logo" />
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-default"><i class="bi-list"></i></span>
+            <span class="navbar-toggler-toggled"><i class="bi-x"></i></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <div class="navbar-absolute-top-scroller">
+              <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link text-dark" href="#">Home</a></li>
+                <li class="hs-has-mega-menu nav-item">
+                  <a id="pagesMegaMenu" class="hs-mega-menu-invoker nav-link dropdown-toggle text-dark" href="#">Services</a>
+                  <div class="hs-mega-menu hs-position-right dropdown-menu w-100" aria-labelledby="pagesMegaMenu" style="min-width: 42rem;">
+                    <div class="navbar-dropdown-menu-inner">
+                      <div class="row">
+                        <div class="col-sm-6 col-md-3">
+                          <span class="dropdown-header nav-header-title">Corporate Planning</span>
+                          <a class="dropdown-item" href="#">Knowledge Management</a>
+                          <a class="dropdown-item" href="#">Scholarships</a>
+                        </div>
+                        <div class="col-sm-6 col-md-3">
+                          <span class="dropdown-header nav-header-title">Revenue Appeals</span>
+                          <a class="dropdown-item" href="#">Submit Appeal</a>
+                        </div>
+                        <div class="col-sm-6 col-md-3">
+                          <span class="dropdown-header nav-header-title">Public Enterprise</span>
+                          <a class="dropdown-item" href="#">Public Boards</a>
+                        </div>
+                        <div class="col-sm-6 col-md-3">
+                          <span class="dropdown-header nav-header-title">Support</span>
+                          <a class="dropdown-item" href="#">Contact Us</a>
+                          <a class="dropdown-item" href="#">User Manuals</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+  <main id="content">
+    <div class="container">
+      <div class="spacer-top mb-8">
+        <div class="card card-lg">
+          <div class="card-header bg-primary-blue position-relative overflow-hidden">
+            <h1 class="card-title h2 text-white"> CORPORATE MANAGEMENT ESTABLISHMENT BRANCH DASHBOARD</h1>
+            <div class="position-absolute" style="top: -6rem; left: -6rem;">
+              <img src="images/svg/components/shape-1-soft-light.svg" alt="SVG" width="500" style="width: 12rem;">
+            </div>
+            <div class="position-absolute" style="bottom: -6rem; right: -7rem;">
+              <img src="images/svg/components/shape-7-soft-light.svg" alt="SVG" width="250">
+            </div>
+            </div>
+          </div>
+      </div>
+
+      <div class="row mb-9 align-items-center justify-content-center">
+        <div class="col-md-5">
+          <input type="text" id="SearchField" class="form-control rounded" placeholder="Search by column..." maxlength="255" />
+        </div>
+        <div class="col-md-2">
+          <button id="reqSearchBtn" class="btn custom-btn w-100" disabled>Search</button>
+        </div>
+        <div class="col-md-3 mt-2 mt-md-0">
+          <a href="/createRequest" class="btn custom-btn w-100">
+            <i class="bi bi-pencil-square me-2"></i> Create Request
+          </a>
+        </div>
+      </div>
+
+      <div id="cmebDB" class="card p-4">
+        <span class="label">MANAGE REQUESTS</span>
+        <table id="manageRequestsGrid" class="table table-striped table-bordered mt-3">
+          <thead class="table-light text-center">
+            <tr>
+              <th>MDA</th>
+              <th>Tracking Number</th>
+              <th>Request Type</th>
+              <th>Status</th>
+              <th>Start Date</th>
+              <th>End Date</th>
+              <th>Priority Level</th>
+              <th>Comments</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody class="text-center align-middle">
+            <tr>
+              <td>Ministry of Finance</td>
+              <td>TRACK-SUB-001</td>
+              <td>Establishment Request</td>
+              <td>Submitted</td>
+              <td>2025-04-20</td>
+              <td>2025-05-20</td>
+              <td>High</td>
+              <td>Initial submission for new department.</td>
+              <td>
+                <a href="editReq.html?id=TRACK-SUB-001" class="edit-icon" title="Edit"><i class="bi bi-pencil-square"></i></a>
+                <a href="#" class="delete-icon" title="Delete"><i class="bi bi-trash"></i></a>
+              </td>
+            </tr>
+            <tr>
+              <td>Ministry of Health</td>
+              <td>TRACK-PEN-002</td>
+              <td>Job Evaluation</td>
+              <td>Pending</td>
+              <td>2025-04-25</td>
+              <td>2025-05-25</td>
+              <td>Medium</td>
+              <td>Awaiting feedback from HR.</td>
+              <td>
+                <a href="editReq.html?id=TRACK-PEN-002" class="edit-icon" title="Edit"><i class="bi bi-pencil-square"></i></a>
+                <a href="#" class="delete-icon" title="Delete"><i class="bi bi-trash"></i></a>
+              </td>
+            </tr>
+            <tr>
+              <td>Ministry of Education</td>
+              <td>TRACK-PEN-003</td>
+              <td>Staff Reassignment</td>
+              <td>Pending</td>
+              <td>2025-04-28</td>
+              <td>2025-05-28</td>
+              <td>Low</td>
+              <td>Pending approval from department head.</td>
+              <td>
+                <a href="editReq.html?id=TRACK-PEN-003" class="edit-icon" title="Edit"><i class="bi bi-pencil-square"></i></a>
+                <a href="#" class="delete-icon" title="Delete"><i class="bi bi-trash"></i></a>
+              </td>
+            </tr>
+            <tr>
+              <td>Ministry of Transport</td>
+              <td>TRACK-CASE-004</td>
+              <td>Case Submission</td>
+              <td>Submitted</td>
+              <td>2025-04-30</td>
+              <td>2025-05-30</td>
+              <td>Medium</td>
+              <td>Case submitted for review.</td>
+              <td>
+                <a href="editReq.html?id=TRACK-CASE-004" class="edit-icon" title="Edit"><i class="bi bi-pencil-square"></i></a>
+                <a href="#" class="delete-icon" title="Delete"><i class="bi bi-trash"></i></a>
+              </td>
+            </tr>
+            <!-- Added Sample Rows -->
+            <tr>
+              <td>Ministry of Labour</td>
+              <td>TRACK-PEND-005</td>
+              <td>Job Evaluation</td>
+              <td>Pending</td> <!-- Pending Status -->
+              <td>2025-05-01</td>
+              <td>2025-06-01</td>
+              <td>Medium</td>
+              <td>Draft saved, not yet submitted.</td>
+              <td>
+                <a href="editReq.html?id=TRACK-PEND-005" class="edit-icon" title="Edit"><i class="bi bi-pencil-square"></i></a> <!-- Links to editReq -->
+                <a href="#" class="delete-icon" title="Delete"><i class="bi bi-trash"></i></a> <!-- Delete icon enabled (conceptually) -->
+              </td>
+            </tr>
+             <tr>
+              <td>Ministry of Justice</td>
+              <td>TRACK-PROG-006</td>
+              <td>Case Submission</td> <!-- Case Submission Type -->
+              <td>In Progress</td> <!-- In Progress Status -->
+              <td>2025-05-02</td>
+              <td>2025-06-02</td>
+              <td>High</td>
+              <td>Awaiting additional documents.</td>
+              <td>
+                <a href="uploadDocs.html?id=TRACK-PROG-006" class="edit-icon" title="Upload Documents"><i class="bi bi-upload"></i></a> <!-- Links to uploadDocs, changed icon -->
+                <a href="#" class="delete-icon" title="Delete"><i class="bi bi-trash"></i></a>
+              </td>
+            </tr>
+             <tr>
+              <td>Ministry of Tourism</td>
+              <td>TRACK-HOLD-007</td>
+              <td>Case Submission</td> <!-- Case Submission Type -->
+              <td>On Hold</td> <!-- On Hold Status -->
+              <td>2025-05-03</td>
+              <td>2025-06-03</td>
+              <td>Low</td>
+              <td>On hold pending policy clarification.</td>
+              <td>
+                 <a href="uploadDocs.html?id=TRACK-HOLD-007" class="edit-icon" title="Upload Documents"><i class="bi bi-upload"></i></a> <!-- Links to uploadDocs, changed icon -->
+                <a href="#" class="delete-icon" title="Delete"><i class="bi bi-trash"></i></a>
+              </td>
+            </tr>
+            <tr id="noResultsRow" style="display: none;">
+              <td colspan="9" class="text-center">No results found.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <footer class="bg-primary footer-border-top text-white py-4">
+    <div class="container">
+      <div class="row content-space-1">
+        <div class="col-lg-4 mb-7 mb-lg-0">
+          <div class="mb-5">
+            <a href="#" aria-label="Logo" style="width:260px;">
+              <img src="images/logo-footer.png" alt="Ministry of Finance Logo" />
+            </a>
+          </div>
+          <ul class="list-inline mb-0">
+            <li class="list-inline-item"><a class="btn btn-icon btn-md btn-soft-light rounded-circle" href="https://www.facebook.com/MOFJamaica"><i class="bi-facebook"></i></a></li>
+            <li class="list-inline-item"><a class="btn btn-icon btn-md btn-soft-light rounded-circle" href="https://twitter.com/MOFJamaica"><i class="bi-twitter"></i></a></li>
+            <li class="list-inline-item"><a class="btn btn-icon btn-md btn-soft-light rounded-circle" href="https://www.instagram.com/mofjamaica/"><i class="bi-instagram"></i></a></li>
+            <li class="list-inline-item"><a class="btn btn-icon btn-md btn-soft-light rounded-circle" href="https://www.youtube.com/channel/UCtGMAv8OII_ddinAddXgDfQ"><i class="bi-youtube"></i></a></li>
+          </ul>
+        </div>
+        <div class="col-sm mb-7 mb-sm-0">
+          <span class="text-cap text-warning">Sitemap</span>
+          <ul class="list-unstyled list-py-1 mb-0">
+            <li><a class="link-sm link-light" href="#">Services</a></li>
+            <li><a class="link-sm link-light" href="#">Profile</a></li>
+            <li><a class="link-sm link-light" href="https://www.mof.gov.jm/about-us/">About Us <i class="bi-box-arrow-up-right ms-1 ps-2"></i></a></li>
+          </ul>
+        </div>
+        <div class="col-sm">
+          <span class="text-cap text-warning">Legal</span>
+          <ul class="list-unstyled list-py-1 mb-5">
+            <li><a class="link-sm link-light" href="#">Terms of use</a></li>
+            <li><a class="link-sm link-light" href="#">Privacy policy <i class="bi-box-arrow-up-right ms-1"></i></a></li>
+          </ul>
+          <span class="text-cap text-warning">Support</span>
+          <ul class="list-unstyled list-py-1 mb-0">
+            <li><a class="link-sm link-light" href="#">User Manual</a></li>
+          </ul>
+        </div>
+        <div class="col-sm">
+          <span class="text-cap text-warning">Get In Touch</span>
+          <ul class="list-unstyled list-py-1 mb-0">
+            <li><span class="link-sm text-white"><i class="bi-house-door pe-2"></i>30 National Heroes Circle</span></li>
+            <li><span class="ps-4 link-sm text-white">Kingston 4, Jamaica</span></li>
+            <li><span class="link-sm text-white"><i class="bi-telephone-inbound pe-2"></i>Phone: 1 (876) 932-4732</span></li>
+            <li><a class="link-sm link-light" target="_blank" href="mailto:contact@mof.gov.jm"><i class="bi-envelope pe-2"></i>Mail: contact@mof.gov.jm <i class="bi-box-arrow-up-right ms-1 ps-2"></i></a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-top border-top-yellow my-3"></div>
+      <div class="row align-items-md-end py-2">
+        <div class="col-md-8 mb-3 mb-md-0">
+          <p class="text-white mb-0">© 2021 Ministry of Finance & the Public Service. All rights reserved.</p>
+        </div>
+        <div class="col-md-4 d-md-flex justify-content-md-end">
+          <p class="text-white mb-0">Government of Jamaica</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Delete Confirmation Modal -->
+  <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteConfirmModalLabel">Confirm Deletion</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Are you sure you want to delete this request? This action cannot be undone.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Confirm Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script> --> <!-- Removed problematic script -->
+  <!-- Load all vendor scripts first -->
+  <!-- Ensure Bootstrap JS (included in theme.min.js or separately) is loaded for Modal functionality -->
+  <script src="js/vendor/theme.min.js"></script>
+  <script src="js/vendor/hs-go-to.min.js"></script>
+  <script src="js/vendor/hs-header.min.js"></script>
+  <script src="js/vendor/hs-show-animation.min.js"></script>
+  <script src="js/vendor/hs-mega-menu.min.js"></script> <!-- Load MegaMenu last among vendors -->
+
+  <script>
+    // Script for Mega Menu Initialization
+    document.addEventListener('DOMContentLoaded', function () {
+      // console.log("DOM Content Loaded - Menu Script");
+
+      // Initialize Mega Menu (if script exists and is needed)
+      try { // Add try...catch to potentially contain the error
+        if (typeof HSMegaMenu === 'function') {
+            const megaMenu = new HSMegaMenu('.js-mega-menu', {
+              desktop: {
+                position: 'left',
+                animation: 'fade'
+              },
+              mobile: {
+                animation: 'slide'
+              }
+            }).init();
+            // console.log("HSMegaMenu initialized successfully.");
+        } else {
+            // console.error("HSMegaMenu function not found.");
+        }
+      } catch (error) {
+          console.error("Error initializing HSMegaMenu:", error);
+      }
+
+      // Handle Nav Link Active State (Optional, kept from original)
+      // Note: Moved this part to the search script block as it's general UI interaction
+      // const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+      // navLinks.forEach(link => {
+      //   link.addEventListener('click', function (e) {
+      //     e.preventDefault();
+      //     navLinks.forEach(l => l.classList.remove('active'));
+      //     this.classList.add('active');
+      //   });
+      // });
+
+      // Ensure menu is visible on load (Kept from original)
+      // Note: Moved this part to the search script block as it's general UI interaction
+      // const menu = document.querySelector('.js-mega-menu .navbar-nav');
+      // if (menu) {
+      //   menu.style.display = 'flex';
+      // }
+    });
+  </script>
+
+  <script>
+    // Script for Search Functionality and other UI
+    document.addEventListener('DOMContentLoaded', function () {
+      // console.log("DOM Content Loaded - Search Script");
+
+      // Handle Nav Link Active State (Moved from menu script block)
+      const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+      navLinks.forEach(link => {
+        link.addEventListener('click', function (e) {
+          e.preventDefault();
+          navLinks.forEach(l => l.classList.remove('active'));
+          this.classList.add('active');
+        });
+      });
+
+      // Ensure menu is visible on load (Moved from menu script block)
+      const menu = document.querySelector('.js-mega-menu .navbar-nav');
+      if (menu) {
+        menu.style.display = 'flex';
+      }
+
+      // --- Search Functionality ---
+      const searchField = document.getElementById('SearchField');
+      const searchBtn = document.getElementById('reqSearchBtn');
+      const table = document.getElementById('manageRequestsGrid');
+      const tableBody = table ? table.querySelector('tbody') : null;
+      const allRows = tableBody ? Array.from(tableBody.querySelectorAll('tr:not(#noResultsRow)')) : []; // Convert NodeList to Array
+      const noResultsRow = document.getElementById('noResultsRow');
+
+      // Function to filter table rows
+      function filterTable(searchTerm) {
+        const term = searchTerm.toLowerCase();
+        let hasResults = false;
+
+        if (!tableBody || !noResultsRow) {
+            console.error("Table body or noResultsRow not found for filtering.");
+            return; // Exit if elements aren't found
+        }
+
+        allRows.forEach(row => {
+          const cells = row.querySelectorAll('td');
+          let rowMatches = false;
+
+          // If search term is empty, show the row
+          if (term === '') {
+            rowMatches = true;
+          } else {
+            // Check if any cell contains the search term
+            // Skip the last cell which contains actions (buttons/icons)
+            for (let i = 0; i < cells.length - 1; i++) {
+                 if (cells[i].textContent.toLowerCase().includes(term)) {
+                   rowMatches = true;
+                   break; // Found a match in this row, no need to check further cells
+                 }
+            }
+          }
+
+          // Show or hide the row based on match
+          row.style.display = rowMatches ? '' : 'none';
+          if (rowMatches) {
+            hasResults = true;
+          }
+        });
+
+        // Show or hide the 'No results' row
+        // Only show 'no results' if there was a search term AND no results were found
+        noResultsRow.style.display = (term !== '' && !hasResults) ? '' : 'none';
+      }
+
+      // Add event listener for live filtering on input
+      if (searchField && searchBtn) { // Ensure elements exist
+        // console.log("Adding input event listener to SearchField"); // <-- REMOVED LOG
+        searchField.addEventListener('input', function() {
+          // console.log("Input event fired! Value:", this.value); // <-- REMOVED LOG
+          const searchTerm = this.value.trim();
+
+          // Enable/disable search button and add/remove active class based on input
+          if (searchTerm !== '') {
+            searchBtn.disabled = false;
+            searchBtn.classList.add('btn-search-active'); // Add active class
+          } else {
+            searchBtn.disabled = true;
+            searchBtn.classList.remove('btn-search-active'); // Remove active class
+          }
+
+          // Perform filtering
+          // console.log("Calling filterTable with:", searchTerm); // <-- REMOVED LOG
+          filterTable(searchTerm);
+        });
+      } else {
+          console.error("Search field or search button not found.");
+      }
+
+       // Initial check: ensure button is disabled and inactive class is set if field is empty on load
+       if(searchField && searchBtn && searchField.value.trim() === ''){
+           searchBtn.disabled = true;
+           searchBtn.classList.remove('btn-search-active');
+       }
+       // Optional: If you want to filter based on pre-filled value on load and enable button:
+       // else if (searchField && searchField.value.trim() !== '') {
+       //    filterTable(searchField.value.trim());
+       //    if(searchBtn) {
+       //        searchBtn.disabled = false;
+       //        searchBtn.classList.add('btn-search-active');
+       //    }
+       // }
+
+      // --- Delete Confirmation Logic ---
+      const deleteModalElement = document.getElementById('deleteConfirmModal');
+      const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+      let rowToDelete = null; // Variable to store the row targeted for deletion
+
+      if (tableBody && deleteModalElement) { // Ensure both table and modal element exist
+          tableBody.addEventListener('click', function(event) {
+              const target = event.target.closest('.delete-icon'); // Check if a delete icon (or its child) was clicked
+
+              if (target) {
+                  event.preventDefault(); // Prevent default link behavior
+                  rowToDelete = target.closest('tr'); // Find the closest parent table row
+
+                  if (rowToDelete) {
+                      // Use getOrCreateInstance for robustness
+                      const modalInstance = bootstrap.Modal.getOrCreateInstance(deleteModalElement);
+                      modalInstance.show(); // Show the confirmation modal
+                  }
+              }
+          });
+      } else {
+          if (!tableBody) console.error("Table body not found for delete listener.");
+          if (!deleteModalElement) console.error("Delete confirmation modal element not found.");
+      }
+
+      if (confirmDeleteBtn && deleteModalElement) { // Check modal element exists for getOrCreateInstance
+          confirmDeleteBtn.addEventListener('click', function() {
+              if (rowToDelete) {
+                  // Simulate deletion by hiding the row
+                  rowToDelete.style.display = 'none';
+                  // In a real app, you would make an AJAX call here to delete from the server
+
+                  // Reset the variable
+                  rowToDelete = null;
+
+                  // Hide the modal using getOrCreateInstance to ensure it exists
+                  const modalInstance = bootstrap.Modal.getOrCreateInstance(deleteModalElement);
+                  modalInstance.hide();
+
+
+                  // Optional: Check if any rows are left and show 'No results' if needed
+                  const visibleRows = allRows.filter(row => row.style.display !== 'none'); // allRows defined earlier
+                  if (visibleRows.length === 0 && noResultsRow) {
+                      noResultsRow.style.display = ''; // Show 'No results' if table is empty
+                  }
+              }
+          });
+      } else {
+           // Add specific error for button missing
+           if (!confirmDeleteBtn) console.error("Confirm delete button not found.");
+           if (!deleteModalElement) console.error("Delete confirmation modal element not found for confirm button listener.");
+      }
+
+
+    });
+  </script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const table = document.getElementById('manageRequestsGrid');
+    const tableBody = table ? table.querySelector('tbody') : null;
+    const allRows = tableBody ? Array.from(tableBody.querySelectorAll('tr:not(#noResultsRow)')) : [];
+    const noResultsRow = document.getElementById('noResultsRow');
+
+    const deleteModalElement = document.getElementById('deleteConfirmModal');
+    const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+    let rowToDelete = null;
+
+    if (tableBody && deleteModalElement) {
+      tableBody.addEventListener('click', function (event) {
+        const target = event.target.closest('.delete-icon');
+
+        if (target) {
+          event.preventDefault();
+          rowToDelete = target.closest('tr');
+
+          if (rowToDelete) {
+            const modalInstance = bootstrap.Modal.getOrCreateInstance(deleteModalElement);
+            modalInstance.show();
+          }
+        }
+      });
+    }
+
+    if (confirmDeleteBtn && deleteModalElement) {
+      confirmDeleteBtn.addEventListener('click', function () {
+        if (rowToDelete) {
+          rowToDelete.classList.add('fade-out');
+
+          setTimeout(() => {
+            rowToDelete.style.display = 'none';
+            rowToDelete = null;
+
+            const modalInstance = bootstrap.Modal.getOrCreateInstance(deleteModalElement);
+            modalInstance.hide();
+
+            const visibleRows = allRows.filter(row => row.style.display !== 'none');
+            if (visibleRows.length === 0 && noResultsRow) {
+              noResultsRow.style.display = '';
+            }
+          }, 500);
+        }
+      });
+    }
+  });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

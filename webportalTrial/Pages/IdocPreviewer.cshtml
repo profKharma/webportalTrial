@@ -1,0 +1,246 @@
+﻿@page
+@model webportalTrial.Pages.IdocPreviewerModel
+@{
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Document Viewer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .container {
+            display: flex;
+            gap: 20px;
+        }
+
+        .upload-section {
+            width: 300px;
+        }
+
+        .upload-btn {
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            padding: 8px;
+            border: 1px solid #ccc;
+            margin: 5px 0;
+            cursor: pointer;
+        }
+
+        .file-item-name {
+            flex: 1;
+        }
+
+        .file-item-remove {
+            margin-left: 10px;
+            background: red;
+            color: white;
+            border: none;
+            padding: 2px 6px;
+            cursor: pointer;
+        }
+
+        .document-viewer {
+            flex: 1;
+            border: 1px solid #ccc;
+            min-height: 500px;
+        }
+
+        .viewer-header {
+            background: #f0f0f0;
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .close-viewer {
+            float: right;
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .viewer-content {
+            padding: 20px;
+            height: 450px;
+            overflow: auto;
+        }
+
+        .viewer-empty {
+            text-align: center;
+            color: #666;
+            margin-top: 100px;
+        }
+
+        #document-frame {
+            width: 100%;
+            height: 400px;
+            border: none;
+        }
+
+        #document-image {
+            max-width: 100%;
+            max-height: 400px;
+        }
+
+        #document-text {
+            width: 100%;
+            height: 400px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            overflow: auto;
+        }
+
+        .download-btn {
+            background: green;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            cursor: pointer;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Simple Document Viewer</h1>
+    <div class="container">
+        <div class="upload-section">
+            <h3>Upload Files</h3>
+            <input type="file" id="document-upload" class="file-input" multiple>
+            <button type="button" class="upload-btn" id="upload-trigger">Upload Document</button>
+            <div id="uploaded-files-list"></div>
+        </div>
+
+        <div class="document-viewer">
+            <div class="viewer-header">
+                <span>Document Viewer</span>
+                <button class="close-viewer">×</button>
+            </div>
+            <div class="viewer-content">
+                <div class="viewer-empty">
+                    <p>No document selected</p>
+                    <p>Click on a file to view it</p>
+                </div>
+                <iframe id="document-frame" style="display: none;"></iframe>
+                <img id="document-image" style="display: none;">
+                <div id="document-text" style="display: none;"></div>
+            </div>
+            <button class="download-btn" style="display: none;">Download</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const fileInput = document.getElementById('document-upload');
+            const uploadTrigger = document.getElementById('upload-trigger');
+            const uploadedFilesList = document.getElementById('uploaded-files-list');
+            // File upload
+            uploadTrigger.addEventListener('click', function() {
+                fileInput.click();
+            });
+            fileInput.addEventListener('change', function() {
+                Array.from(this.files).forEach(file => {
+                    const fileItem = document.createElement('div');
+                    fileItem.className = 'file-item';
+                    const fileName = document.createElement('span');
+                    fileName.className = 'file-item-name';
+                    fileName.textContent = file.name;
+                    const fileSize = document.createElement('span');
+                    fileSize.textContent = formatFileSize(file.size);
+                    const removeBtn = document.createElement('button');
+                    removeBtn.className = 'file-item-remove';
+                    removeBtn.textContent = '×';
+                    removeBtn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        fileItem.remove();
+                    });
+                    fileItem.appendChild(fileName);
+                    fileItem.appendChild(fileSize);
+                    fileItem.appendChild(removeBtn);
+                    uploadedFilesList.appendChild(fileItem);
+                    fileItem.addEventListener('click', function(e) {
+                        if (e.target.classList.contains('file-item-remove')) return;
+                        openDocumentViewer(file);
+                    });
+                });
+            });
+            // Document viewer
+            function openDocumentViewer(file) {
+                const documentFrame = document.getElementById('document-frame');
+                const documentImage = document.getElementById('document-image');
+                const documentText = document.getElementById('document-text');
+                const viewerEmpty = document.querySelector('.viewer-empty');
+                const downloadBtn = document.querySelector('.download-btn');
+                // Hide all
+                documentFrame.style.display = 'none';
+                documentImage.style.display = 'none';
+                documentText.style.display = 'none';
+                viewerEmpty.style.display = 'none';
+                downloadBtn.style.display = 'block';
+                const fileURL = URL.createObjectURL(file);
+                // Download button
+                downloadBtn.onclick = function() {
+                    const a = document.createElement('a');
+                    a.href = fileURL;
+                    a.download = file.name;
+                    a.click();
+                };
+                // Show based on file type
+                if (file.type.startsWith('image/')) {
+                    documentImage.src = fileURL;
+                    documentImage.style.display = 'block';
+                } else if (file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf')) {
+                    documentFrame.src = fileURL;
+                    documentFrame.style.display = 'block';
+                } else if (file.type.startsWith('text/') || file.name.toLowerCase().endsWith('.txt')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        documentText.textContent = e.target.result;
+                        documentText.style.display = 'block';
+                    };
+                    reader.readAsText(file);
+                } else {
+                    documentText.textContent = 'File type not supported for preview';
+                    documentText.style.display = 'block';
+                }
+            }
+            // Close viewer
+            document.querySelector('.close-viewer').addEventListener('click', function() {
+                document.getElementById('document-frame').style.display = 'none';
+                document.getElementById('document-image').style.display = 'none';
+                document.getElementById('document-text').style.display = 'none';
+                document.querySelector('.download-btn').style.display = 'none';
+                document.querySelector('.viewer-empty').style.display = 'block';
+            });
+            // Format file size
+            function formatFileSize(bytes) {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+            }
+        });
+    </script>
+</body>
+</html>

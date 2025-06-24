@@ -5,6 +5,8 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <link href="~/css/createRequest.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
 <div class="spacer-top">
     <!-- Card -->
     <div class="card card-lg">
@@ -30,25 +32,44 @@
 
         <!-- Card Body -->
         <div class="card-body">
+
             <div class="row shadow-xs p-3 mb-5 bg-white" id="applicantDetails">
+
+                <!--date for req creation col-4 -->
+                <div class=" topSection row">
+                    <div id=" method" class="customrightDiv col-4">
+                        <label>Submission Method</label>
+                        @(Html.DevExtreme().SelectBox().ID("method").Placeholder("Select a method of submission")
+                            .InputAttr("aria-label", "method")
+                            .DataSource(new[] { " Online Submission Only", "Online and Physical Submission" }))
+                    </div>
+
+                    <div class="col-4">
+                    </div>
+
+
+                </div>
 
                 <!-- Sidebar -->
                 <div class="col-3">
                     <div class="sidebar">
-                        <h3 class="sidebar-header">Request Types</h3>
-                        <ul class="sidebar-tabs">
-                            <li>Classification Schedule Template</li>
-                            <li>Establishment Request</li>
-                            <li>Reconciliation Request</li>
-                            <li>Temporary Post No/MyHR+ Schedule Request</li>
-                            <li>Post Audit</li>
-                            <li>Organizational Review</li>
-                            <li>Job Analysis</li>
-                            <li>Job Evaluation</li>
-                            <li>Technical Advice</li>
-                            <li>Quality Control Request</li>
-                            <li>Establishment Maintenance</li>
+                        <div class="sidebar-header" data-title="Click the tab(s) for the Request(s) you would like to
+                                create from the side bar and enter the required details.">
+                            Request Types
+                        </div>
+                        <ul id="reqType" class="sidebar-tabs">
+                            <li data-title="Add, remove, or change staff positions. Ensures the structure reflects actual needs." data-frame="estabReq">
+                                Establishment Request
+                            </li>
+                            <li data-title="awaiting user feedback" data-frame="recReq">Reconciliation Request</li>
+                            <li data-title="awaiting user feedback" data-frame="myHr">Temporary Post No/MyHR+ Schedule Request</li>
+                            <li data-title="awaiting user feedback" data-frame="postAudit">Post Audit</li>
+                            <li data-title="awaiting user feedback" data-frame="orgRev">Organizational Review</li>
+                            <li data-title="awaiting user feedback" data-frame="jobAnalysis">Job Analysis</li>
+                            <li data-title="awaiting user feedback" data-frame="jobEval">Job Evaluation</li>
+                            <li data-title="awaiting user feedback" data-frame="techAdvice">Technical Advice</li>
                         </ul>
+
                     </div>
                 </div>
 
@@ -56,44 +77,7 @@
                 <div id="mainContent" class="col-9">
                     <form id="createReq" method="post">
 
-                        <!--date for req creation col-4 -->
-                        <div class=" topSection row">
-                            <div id=" method" class="customrightDiv col-4">
-                                <label>Submission Method</label>
-                                @(Html.DevExtreme().SelectBox().ID("method").Placeholder("Select a method of submission")
-                                    .InputAttr("aria-label", "method")
-                                    .DataSource(new[] { " Online Submission Only", "Online and Physical Submission" }))
-                            </div>
-
-                            <div class="col-4">
-                            </div>
-
-
-                        </div>
-
-
-                        <!--Section for requirement specs-->
-                        @* <div id="reqSpecs" class="form-container row"> *@
-                        @*     <div id="selectReqDiv" class="form-group col-4"> *@
-                        @* <label for="reqTypeSelect">Request Type</label> *@
-                        @* <select id="reqTypeSelect"> *@
-                        @*     <option selected disabled>Select Request Type...</option> *@
-                        @*     <option>Classification Schedule Template</option> *@
-                        @*     <option>Establishment Request</option> *@
-                        @*     <option>Reconciliation Request</option> *@
-                        @*     <option>Temporary Post No/MyHR+ Schedule Request</option> *@
-                        @*     <option>Post Audit</option> *@
-                        @*     <option>Organizational Review/Establishment Change</option> *@
-                        @*     <option>Job Analysis</option> *@
-                        @*     <option>Job Evaluation</option> *@
-                        @*     <option>Technical Advice</option> *@
-                        @*     <option>Quality Control Request (Internal Only)</option> *@
-                        @*     <option>Establishment Maintenance (Internal Only)</option> *@
-                        @* </select> *@
-                        @*     </div> *@
-
-
-                        @* </div> *@
+                        
 
                         <!--MDA Details-->
                         <div id="mdaDetesDiv" class="row frameDiv">
@@ -157,13 +141,35 @@
 
                             </div>
 
+                            <!--  File uploader section -->
+                            <div id="fileuploader" class="file-uploader">
+                                <div class="widget-container border border-dashed">
+                                    <p class="uploadingNotes"> Users are required to upload any supporting documents  
+                                        for the Entity submitting the requests.</p>
+                                    @(Html.DevExtreme().FileUploader()
+                                        .ID("file-uploader1")
+                                        .Name("myFile")
+                                        .SelectButtonText("Select Files")
+                                        .Multiple(true)
+                                        @* .Accept(".docx, .pdf") *@
+                                        .UploadMode(FileUploadMode.UseButtons)
+                                        .UploadUrl(Url.Action("Upload", "FileUploader"))
+                                        .OnValueChanged("fileUploader_valueChanged")
+                                        )
+                                </div>
+                            </div>
+                            <!-- END  File uploader section -->
                         </div>
 
                         <!--post Info-->
                         <div id="postInfo" class="row frameDiv">
                             <button class="toggleBtn d-flex "> 
                                 <span>POST INFORMATION</span>
-                                <span class="frame-icon ms-auto rotate-icon">▲</span>
+                                @* <span class="frame-icon ms-auto rotate-icon">▲</span> *@
+                                <span class="frame-icons ms-auto">
+                                    <i class="rotate-icon">▲</i>
+                                    <i class="fas fa-trash delete-icon ms-2"></i>
+                                </span>
                                 </button>
                             <div id="postInfoDiv" class="row content">
                                 <div id="postNum" class="col-4">
@@ -203,13 +209,39 @@
                                     <label>Post Location</label>
                                     @(Html.DevExtreme().TextBox().Placeholder("Eg: Kingston branch").InputAttr("aria-label", "Location"))
                                 </div>
+
+                                <!--  File uploader section -->
+                                <div id="fileuploader" class="file-uploader">
+                                    <div class="widget-container border border-dashed">
+                                        <p class="uploadingNotes">
+                                            Users are required to upload any supporting documents
+                                            for the post information required for your request(s).
+                                        </p>
+                                        @(Html.DevExtreme().FileUploader()
+                                            .ID("file-uploader2")
+                                            .Name("myFile")
+                                            .SelectButtonText("Select Files")
+                                            .Multiple(true)
+                                            @* .Accept(".docx, .pdf") *@
+                                            .UploadMode(FileUploadMode.UseButtons)
+                                            .UploadUrl(Url.Action("Upload", "FileUploader"))
+                                            .OnValueChanged("fileUploader_valueChanged")
+                                            )
+                                    </div>
+                                </div>
+                                <!-- END  File uploader section -->
+
+
                             </div>
                         </div>
                         <!--Employee/Job Holder Information -->
                         <div id="empJobHolder" class="row frameDiv">
                             <button class="toggleBtn d-flex">
                                 <span>CURRENT EMPLOYEE INFORMATION</span>
-                                <span class="frame-icon ms-auto rotate-icon">▲</span>
+                                <span class="frame-icons ms-auto">
+                                    <i class="rotate-icon">▲</i>
+                                    <i class="fas fa-trash delete-icon ms-2"></i>
+                                </span>
                             </button>
 
                             <div class="row content">
@@ -237,7 +269,7 @@
                                 <div id="subBtnsDiv" class="row">
                                     <div id="addBtn" class="doneBtn col-6">
                                         @(Html.DevExtreme().Button().Icon("plus")
-                                            .Text("Add Record")
+                                            .Text("Add ")
                                             .Type(ButtonType.Success).ElementAttr(new { @class = "button-custom" })
                                             .UseSubmitBehavior(true))
                                     </div>
@@ -246,19 +278,78 @@
                                     <div class="doneBtn col-6">
                                         @(Html.DevExtreme().Button()
                                             .Icon("trash")
-                                            .Text("Remove Record")
+                                            .Text("Remove ")
                                             .Type(ButtonType.Default).ElementAttr(new { @class = "button-custom" })
                                             .UseSubmitBehavior(false))
                                     </div>
 
                                 </div>
+
+                                <!--  START List view for multiple record -->
+
+                                <div style="border: 1px solid #ccc; padding: 1rem; width: 100%; max-width: 600px; margin: auto; font-size: 12px;">
+                                    <h3 style="font-size: 14px;">Employee Records</h3>
+                                    <table style="width: 100%; border-collapse: collapse; border: 1px solid #ddd;">
+                                        <thead>
+                                            <tr style="background-color: #f0f0f0;">
+                                                <th style="text-align: left; padding: 4px; border-right: 1px solid #ccc; border-left: 1px solid #ccc;">First Name</th>
+                                                <th style="text-align: left; padding: 4px; border-right: 1px solid #ccc;">Last Name</th>
+                                                <th style="text-align: left; padding: 4px; border-right: 1px solid #ccc;">Employee Type</th>
+                                                <th style="text-align: left; padding: 4px; border-right: 1px solid #ccc;">First Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td style="padding: 4px; border-right: 1px solid #ccc; border-left: 1px solid #ccc;">Alice</td>
+                                                <td style="padding: 4px; border-right: 1px solid #ccc;">Johnson</td>
+                                                <td style="padding: 4px; border-right: 1px solid #ccc;">Full-Time</td>
+                                                <td style="padding: 4px; border-right: 1px solid #ccc;">Active</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding: 4px; border-right: 1px solid #ccc; border-left: 1px solid #ccc;">Bob</td>
+                                                <td style="padding: 4px; border-right: 1px solid #ccc;">Smith</td>
+                                                <td style="padding: 4px; border-right: 1px solid #ccc;">Part-Time</td>
+                                                <td style="padding: 4px; border-right: 1px solid #ccc;">Pending</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <!--  END List view for multiple record -->
+
+                               
+                                <!--  File uploader section -->
+                                <div id="fileuploader" class="file-uploader">
+                                    <div class="widget-container border border-dashed">
+                                        <p class="uploadingNotes">
+                                            Users are required to upload any supporting documents
+                                            for the post information required for your request(s).
+                                        </p>
+                                        @(Html.DevExtreme().FileUploader()
+                                            .ID("file-uploader3")
+                                            .Name("myFile")
+                                            .SelectButtonText("Select Files")
+                                            .Multiple(true)
+                                            .UploadMode(FileUploadMode.UseButtons)
+                                            .UploadUrl(Url.Action("Upload", "FileUploader", new { context = "employee" }))
+                                            .OnValueChanged("fileUploader_valueChanged")
+                                            )
+
+                                    </div>
+                                </div>
+                                <!-- END  File uploader section -->
+
+
                             </div>
                         </div>
                         <!-- Classification Schedule -->
                         <div id="classification" class="row frameDiv">
                             <button class="toggleBtn d-flex">
                                 <span>POST CLASSIFICATION SCHEDULE</span>
-                                <span class="frame-icon ms-auto rotate-icon">▲</span>
+                                <span class="frame-icons ms-auto">
+                                    <i class="rotate-icon">▲</i>
+                                    <i class="fas fa-trash delete-icon ms-2"></i>
+                                </span>
                             </button>
 
                             <div class="row content">
@@ -292,6 +383,29 @@
                                     <label>Remarks</label>
                                     @(Html.DevExtreme().TextArea().InputAttr("aria-label", "scdRemarks"))
                                 </div>
+
+                                <!--  File uploader section -->
+                                <div id="fileuploader" class="file-uploader">
+                                    <div class="widget-container border border-dashed">
+                                        <p class="uploadingNotes">
+                                            Users are required to upload any supporting documents
+                                            for the post information required for your request(s).
+                                        </p>
+                                        @(Html.DevExtreme().FileUploader()
+                                            .ID("file-uploader11")
+                                            .Name("myFile")
+                                            .SelectButtonText("Select Files")
+                                            .Multiple(true)
+                                            @* .Accept(".docx, .pdf") *@
+                                            .UploadMode(FileUploadMode.UseButtons)
+                                            .UploadUrl(Url.Action("Upload", "FileUploader"))
+                                            .OnValueChanged("fileUploader_valueChanged")
+                                            )
+                                    </div>
+                                </div>
+                                <!-- END  File uploader section -->
+
+
                             </div>
                         </div>
 
@@ -300,7 +414,10 @@
                         <div id="estabReq" class="row frameDiv">
                             <button class="toggleBtn d-flex">
                                 <span>ESTABLISHMENT REQUEST</span>
-                                <span class="frame-icon ms-auto rotate-icon">▲</span>
+                                <span class="frame-icons ms-auto">
+                                    <i class="rotate-icon">▲</i>
+                                    <i class="fas fa-trash delete-icon ms-2"></i>
+                                </span>
                             </button>
 
 
@@ -319,6 +436,29 @@
                                     <label>General Remarks</label>
                                     @(Html.DevExtreme().TextArea().InputAttr("aria-label", "genRemarksER"))
                                 </div>
+
+                                <!--  File uploader section -->
+                                <div id="fileuploader" class="file-uploader">
+                                    <div class="widget-container border border-dashed">
+                                        <p class="uploadingNotes">
+                                            Users are required to upload any supporting documents
+                                            for the post information required for your request(s).
+                                        </p>
+                                        @(Html.DevExtreme().FileUploader()
+                                            .ID("file-uploader4")
+                                            .Name("myFile")
+                                            .SelectButtonText("Select Files")
+                                            .Multiple(true)
+                                            @* .Accept(".docx, .pdf") *@
+                                            .UploadMode(FileUploadMode.UseButtons)
+                                            .UploadUrl(Url.Action("Upload", "FileUploader"))
+                                            .OnValueChanged("fileUploader_valueChanged")
+                                            )
+                                    </div>
+                                </div>
+                                <!-- END  File uploader section -->
+
+
                             </div>
                         </div>
 
@@ -326,7 +466,10 @@
                         <div id="recReq" class="row frameDiv">
                             <button class="toggleBtn d-flex">
                                 <span>RECONCILIATION REQUEST</span>
-                                <span class="frame-icon ms-auto rotate-icon">▲</span>
+                                <span class="frame-icons ms-auto">
+                                    <i class="rotate-icon">▲</i>
+                                    <i class="fas fa-trash delete-icon ms-2"></i>
+                                </span>
                             </button>
 
 
@@ -381,7 +524,7 @@
                                 <div id="subBtnsDiv" class="row">
                                     <div id="addBtn" class="doneBtn col-6">
                                         @(Html.DevExtreme().Button().Icon("plus")
-                                            .Text("Add Record")
+                                            .Text("Add ")
                                             .Type(ButtonType.Success).ElementAttr(new { @class = "button-custom" })
                                             .UseSubmitBehavior(true))
                                     </div>
@@ -390,12 +533,35 @@
                                     <div class="doneBtn col-6">
                                         @(Html.DevExtreme().Button()
                                             .Icon("trash")
-                                            .Text("Remove Record")
+                                            .Text("Remove")
                                             .Type(ButtonType.Default).ElementAttr(new { @class = "button-custom" })
                                             .UseSubmitBehavior(false))
                                     </div>
 
                                 </div>
+
+                                <!--  File uploader section -->
+                                <div id="fileuploader" class="file-uploader">
+                                    <div class="widget-container border border-dashed">
+                                        <p class="uploadingNotes">
+                                            Users are required to upload any supporting documents
+                                            for the post information required for your request(s).
+                                        </p>
+                                        @(Html.DevExtreme().FileUploader()
+                                            .ID("file-uploader5")
+                                            .Name("myFile")
+                                            .SelectButtonText("Select Files")
+                                            .Multiple(true)
+                                            @* .Accept(".docx, .pdf") *@
+                                            .UploadMode(FileUploadMode.UseButtons)
+                                            .UploadUrl(Url.Action("Upload", "FileUploader"))
+                                            .OnValueChanged("fileUploader_valueChanged")
+                                            )
+                                    </div>
+                                </div>
+                                <!-- END  File uploader section -->
+
+
                             </div>
                         </div>
 
@@ -404,7 +570,10 @@
                         <div id="myHr" class="row frameDiv">
                             <button class="toggleBtn d-flex">
                                 <span>MYHR+ SCHEDULE</span>
-                                <span class="frame-icon ms-auto rotate-icon">▲</span>
+                                <span class="frame-icons ms-auto">
+                                    <i class="rotate-icon">▲</i>
+                                    <i class="fas fa-trash delete-icon ms-2"></i>
+                                </span>
                             </button>
 
 
@@ -435,6 +604,29 @@
                                     <label>General Remarks</label>
                                     @(Html.DevExtreme().TextArea().InputAttr("aria-label", "genRemarksER"))
                                 </div>
+
+                                <!--  File uploader section -->
+                                <div id="fileuploader" class="file-uploader">
+                                    <div class="widget-container border border-dashed">
+                                        <p class="uploadingNotes">
+                                            Users are required to upload any supporting documents
+                                            for the post information required for your request(s).
+                                        </p>
+                                        @(Html.DevExtreme().FileUploader()
+                                            .ID("file-uploader6")
+                                            .Name("myFile")
+                                            .SelectButtonText("Select Files")
+                                            .Multiple(true)
+                                            @* .Accept(".docx, .pdf") *@
+                                            .UploadMode(FileUploadMode.UseButtons)
+                                            .UploadUrl(Url.Action("Upload", "FileUploader"))
+                                            .OnValueChanged("fileUploader_valueChanged")
+                                            )
+                                    </div>
+                                </div>
+                                <!-- END  File uploader section -->
+
+
                             </div>
                         </div>
 
@@ -442,7 +634,10 @@
                         <div id="postAudit" class="row frameDiv ta">
                             <button class="toggleBtn d-flex">
                                 <span>POST AUDIT</span>
-                                <span class="frame-icon ms-auto rotate-icon">▲</span>
+                                <span class="frame-icons ms-auto">
+                                    <i class="rotate-icon">▲</i>
+                                    <i class="fas fa-trash delete-icon ms-2"></i>
+                                </span>
                             </button>
 
 
@@ -475,7 +670,7 @@
                                 <div id="subBtnsDiv2" class="row">
                                     <div id="addBtn2" class="doneBtn col-6">
                                         @(Html.DevExtreme().Button().Icon("plus")
-                                            .Text("Add Record")
+                                            .Text("Add ")
                                             .Type(ButtonType.Success).ElementAttr(new { @class = "button-custom" })
                                             .UseSubmitBehavior(true))
                                     </div>
@@ -484,11 +679,34 @@
                                     <div class="doneBtn col-6">
                                         @(Html.DevExtreme().Button()
                                             .Icon("trash")
-                                            .Text("Remove Record")
+                                            .Text("Remove ")
                                             .Type(ButtonType.Default).ElementAttr(new { @class = "button-custom" })
                                             .UseSubmitBehavior(false))
                                     </div>
                                 </div>
+
+                                <!--  File uploader section -->
+                                <div id="fileuploader" class="file-uploader">
+                                    <div class="widget-container border border-dashed">
+                                        <p class="uploadingNotes">
+                                            Users are required to upload any supporting documents
+                                            for the post information required for your request(s).
+                                        </p>
+                                        @(Html.DevExtreme().FileUploader()
+                                            .ID("file-uploader7")
+                                            .Name("myFile")
+                                            .SelectButtonText("Select Files")
+                                            .Multiple(true)
+                                            .UploadMode(FileUploadMode.UseButtons)
+                                            .UploadUrl(Url.Action("Upload", "FileUploader", new { context = "postAudit" }))
+                                            .OnValueChanged("fileUploader_valueChanged")
+                                            )
+
+                                    </div>
+                                </div>
+                                <!-- END  File uploader section -->
+
+
                             </div>
                         </div>
 
@@ -496,7 +714,10 @@
                         <div id="orgRev" class="row frameDiv">
                             <button class="toggleBtn d-flex">
                                 <span>ORGANIZATIONAL REVIEW</span>
-                                <span class="frame-icon ms-auto rotate-icon">▲</span>
+                                <span class="frame-icons ms-auto">
+                                    <i class="rotate-icon">▲</i>
+                                    <i class="fas fa-trash delete-icon ms-2"></i>
+                                </span>
                             </button>
 
 
@@ -510,6 +731,29 @@
                                     <label>General Remarks</label>
                                     @(Html.DevExtreme().TextArea().InputAttr("aria-label", "genRemarksOR"))
                                 </div>
+
+                                <!--  File uploader section -->
+                                <div id="fileuploader" class="file-uploader">
+                                    <div class="widget-container border border-dashed">
+                                        <p class="uploadingNotes">
+                                            Users are required to upload any supporting documents
+                                            for the post information required for your request(s).
+                                        </p>
+                                        @(Html.DevExtreme().FileUploader()
+                                            .ID("file-uploader8")
+                                            .Name("myFile")
+                                            .SelectButtonText("Select Files")
+                                            .Multiple(true)
+                                            @* .Accept(".docx, .pdf") *@
+                                            .UploadMode(FileUploadMode.UseButtons)
+                                            .UploadUrl(Url.Action("Upload", "FileUploader"))
+                                            .OnValueChanged("fileUploader_valueChanged")
+                                            )
+                                    </div>
+                                </div>
+                                <!-- END  File uploader section -->
+
+
                             </div>
                         </div>
 
@@ -517,7 +761,10 @@
                         <div id="jobAnalysis" class="row frameDiv">
                             <button class="toggleBtn d-flex">
                                 <span>JOB ANALYSIS/EVALUATION</span>
-                                <span class="frame-icon ms-auto rotate-icon">▲</span>
+                                <span class="frame-icons ms-auto">
+                                    <i class="rotate-icon">▲</i>
+                                    <i class="fas fa-trash delete-icon ms-2"></i>
+                                </span>
                             </button>
 
 
@@ -551,6 +798,29 @@
                                     <label>Key Output</label>
                                     @(Html.DevExtreme().TextArea().InputAttr("aria-label", "keyOutput"))
                                 </div>
+
+                                <!--  File uploader section -->
+                                <div id="fileuploader" class="file-uploader">
+                                    <div class="widget-container border border-dashed">
+                                        <p class="uploadingNotes">
+                                            Users are required to upload any supporting documents
+                                            for the post information required for your request(s).
+                                        </p>
+                                        @(Html.DevExtreme().FileUploader()
+                                            .ID("file-uploader9")
+                                            .Name("myFile")
+                                            .SelectButtonText("Select Files")
+                                            .Multiple(true)
+                                            @* .Accept(".docx, .pdf") *@
+                                            .UploadMode(FileUploadMode.UseButtons)
+                                            .UploadUrl(Url.Action("Upload", "FileUploader"))
+                                            .OnValueChanged("fileUploader_valueChanged")
+                                            )
+                                    </div>
+                                </div>
+                                <!-- END  File uploader section -->
+
+
                             </div>
                         </div>
 
@@ -558,7 +828,10 @@
                         <div id="techAdvice" class="row frameDiv">
                             <button class="toggleBtn d-flex">
                                 <span>TECHNICAL ADVICE</span>
-                                <span class="frame-icon ms-auto rotate-icon">▲</span>
+                                <span class="frame-icons ms-auto">
+                                    <i class="rotate-icon">▲</i>
+                                    <i class="fas fa-trash delete-icon ms-2"></i>
+                                </span>
                             </button>
 
 
@@ -588,53 +861,45 @@
                                     <label>Remarks</label>
                                     @(Html.DevExtreme().TextArea().InputAttr("aria-label", "remarksTA"))
                                 </div>
-                            </div>
-                        </div>
 
-                        <!--Quality Control-->
-                        <div id="qltyControl" class="row frameDiv">
-                            <button class="toggleBtn d-flex">
-                                <span>QUALITY CONTROL</span>
-                                <span class="frame-icon ms-auto rotate-icon">▲</span>
-                            </button>
-
-
-
-                            <div class="row content">
-
-                                <p></p>
-                                <p></p>
-                            </div>
-                        </div>
-
-                        <!--Establishment Maintenance-->
-                        <div id="estabMaintenance" class="row frameDiv">
-                            <button class="toggleBtn d-flex">
-                                <span>ESTABLISHMENT MAINTENANCE</span>
-                                <span class="frame-icon ms-auto rotate-icon">▲</span>
-                            </button>
+                                <!--  File uploader section -->
+                                <div id="fileuploader" class="file-uploader">
+                                    <div class="widget-container border border-dashed">
+                                        <p class="uploadingNotes">
+                                            Users are required to upload any supporting documents
+                                            for the post information required for your request(s).
+                                        </p>
+                                        @(Html.DevExtreme().FileUploader()
+                                            .ID("file-uploader10")
+                                            .Name("myFile")
+                                            .SelectButtonText("Select Files")
+                                            .Multiple(true)
+                                            @* .Accept(".docx, .pdf") *@
+                                            .UploadMode(FileUploadMode.UseButtons)
+                                            .UploadUrl(Url.Action("Upload", "FileUploader"))
+                                            .OnValueChanged("fileUploader_valueChanged")
+                                            )
+                                    </div>
+                                </div>
+                                <!-- END  File uploader section -->
 
 
-
-                            <div class="row content">
-
-                                <p></p>
-                                <p></p>
                             </div>
                         </div>
 
                         <!--buttons to save and continue-->
                         <div id="subBtnsDiv3" class="row">
-                            <div id="addBtn2" class="doneBtn col-6">
-                                @(Html.DevExtreme().Button().Icon("save")
-                                    .Text("Save & Close")
-                                    .Type(ButtonType.Success).ElementAttr(new { @class = "button-custom" })
-                                    .UseSubmitBehavior(true))
+                            <div class="doneBtn">
+                                <button type="button" class="btn button-custom" onclick="saveAndClose()">
+                                    Save & Close <i class='far fa-check-circle'></i>
+                                </button>
                             </div>
 
 
-                            <div class="doneBtn col-6">
-                                <a href="UploadFiles" class="btn  button-custom">Continue <i class='far fa-arrow-alt-circle-right'></i></a>
+                            <div class="doneBtn ">
+                                <a href="/previewPage" class="btn button-custom" id="previewBtn">
+                                    Continue <i class='far fa-arrow-alt-circle-right'></i>
+                                </a>
                             </div>
 
                         </div>
@@ -649,6 +914,7 @@
     </div>
     <!-- End Card -->
 </div>
+
 <style>
 
     .content {
@@ -690,15 +956,167 @@
 </style>
 
 <script>
+
+        // Toggle the up and down arrow for frame sections
     document.addEventListener("DOMContentLoaded", function () {
         document.querySelectorAll(".toggleBtn").forEach(function (button) {
-            button.addEventListener("click",function (event) {
-                event.preventDefault()
-                const icon = button.querySelector('.frame-icon');
+            button.addEventListener("click", function (event) {
+                event.preventDefault();
+                const rotateIcon = button.querySelector(".rotate-icon");
                 const content = button.nextElementSibling;
-                content.classList.toggle("show");
-                icon.classList.toggle('rotated');                
+                if (content) {
+                    content.classList.toggle("show");
+                }
+                if (rotateIcon) {
+                    rotateIcon.classList.toggle("rotated");
+                }
             });
         });
     });
+
+    // Js to delete frames
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".delete-icon").forEach(function (icon) {
+            icon.addEventListener("click", function (event) {
+                event.preventDefault();
+                const frame = this.closest(".frameDiv");
+                if (frame) {
+                    frame.remove();
+                }
+            });
+        });
+    });
+
+
+    // Multi-select sidebar tabs and show/hide corresponding frames
+    document.addEventListener('DOMContentLoaded', function () {
+        const sidebarTabs = document.querySelectorAll('#reqType li');
+        // List of all possible frame IDs
+        const allFrameIds = [
+            'estabReq',
+            'recReq',
+            'myHr',
+            'postAudit',
+            'orgRev',
+            'jobAnalysis',
+            'jobEval',
+            'techAdvice'
+        ];
+
+        // On page load, hide all frames by default
+        allFrameIds.forEach(id => {
+            const frame = document.getElementById(id);
+            if (frame) frame.style.display = 'none';
+        });
+
+        sidebarTabs.forEach(tab => {
+            tab.addEventListener('click', function () {
+                // Toggle selected class for multi-select
+                this.classList.toggle('selected');
+
+                // Show or hide the corresponding frame
+                const frameId = this.getAttribute('data-frame');
+                const frame = document.getElementById(frameId);
+                if (frame) {
+                    // Toggle frame visibility based on tab selection
+                    if (this.classList.contains('selected')) {
+                        frame.style.display = '';
+                    } else {
+                        frame.style.display = 'none';
+                    }
+                }
+            });
+        });
+    });
+
+    
+    document.addEventListener('DOMContentLoaded', function () {
+        // When "Continue" is clicked, gather form data and show modal
+        document.getElementById('previewBtn').addEventListener('click', function () {
+            // Gather data from form fields (adjust selectors as needed)
+            const mda = document.querySelector('[aria-label="mda details"]')?.value || '';
+            const division = document.querySelector('[aria-label="Division details"]')?.value || '';
+            const department = document.querySelector('[aria-label="Department details"]')?.value || '';
+            const fName = document.querySelector('[aria-label="fName"]')?.value || '';
+            const email = document.querySelector('[aria-label="email"]')?.value || '';
+            const phoneNumber = document.querySelector('[aria-label="phoneNumber"]')?.value || '';
+            const summary = document.querySelector('[aria-label="summary"]')?.value || '';
+
+            // Add more fields as needed...
+
+            // Build preview HTML
+            let html = `
+                <dl class="row">
+                    <dt class="col-sm-4">MDA</dt><dd class="col-sm-8">${mda}</dd>
+                    <dt class="col-sm-4">Division</dt><dd class="col-sm-8">${division}</dd>
+                    <dt class="col-sm-4">Department</dt><dd class="col-sm-8">${department}</dd>
+                    <dt class="col-sm-4">Contact Name</dt><dd class="col-sm-8">${fName}</dd>
+                    <dt class="col-sm-4">Email</dt><dd class="col-sm-8">${email}</dd>
+                    <dt class="col-sm-4">Phone Number</dt><dd class="col-sm-8">${phoneNumber}</dd>
+                    <dt class="col-sm-4">Summary</dt><dd class="col-sm-8">${summary}</dd>
+                </dl>
+            `;
+
+            document.getElementById('previewContent').innerHTML = html;
+
+            // Show the modal
+            var modal = new bootstrap.Modal(document.getElementById('previewModal'));
+            modal.show();
+        });
+
+        // When "Yes, Submit" is clicked, submit the form
+        document.getElementById('confirmSubmitBtn').addEventListener('click', function () {
+            document.getElementById('createReq').submit();
+        });
+    });
+
 </script>
+
+//Script for previewer:
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+
+@* <script> *@
+@*     // Multi-select sidebar tabs and show/hide corresponding frames *@
+@*     document.addEventListener('DOMContentLoaded', function () { *@
+@*         const sidebarTabs = document.querySelectorAll('#reqType li'); *@
+@*         // List of all possible frame IDs *@
+@*         const allFrameIds = [ *@
+@*             'estabReq', *@
+@*             'recReq', *@
+@*             'myHr', *@
+@*             'postAudit', *@
+@*             'orgRev', *@
+@*             'jobAnalysis', *@
+@*             'jobEval', *@
+@*             'techAdvice' *@
+@*         ]; *@
+
+@*         sidebarTabs.forEach(tab => { *@
+@*             tab.addEventListener('click', function () { *@
+@*                 // Toggle selected class for multi-select *@
+@*                 this.classList.toggle('selected'); *@
+
+@*                 // Show or hide the corresponding frame *@
+@*                 const frameId = this.getAttribute('data-frame'); *@
+@*                 const frame = document.getElementById(frameId); *@
+@*                 if (frame) { *@
+@*                     // Toggle frame visibility based on tab selection *@
+@*                     if (this.classList.contains('selected')) { *@
+@*                         frame.style.display = ''; *@
+@*                     } else { *@
+@*                         frame.style.display = 'none'; *@
+@*                     } *@
+@*                 } *@
+@*             }); *@
+@*         }); *@
+
+@*         // On page load, hide all frames by default *@
+@*         allFrameIds.forEach(id => { *@
+@*             const frame = document.getElementById(id); *@
+@*             if (frame) frame.style.display = 'none'; *@
+@*         }); *@
+@*     }); *@
+@* </script> *@
+
+

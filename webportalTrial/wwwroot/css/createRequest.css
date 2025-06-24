@@ -1,61 +1,4 @@
-﻿
-/*START OF COLLAPSIBLE FRAMES*/
-
-/*body {
-    font-family: Arial, sans-serif;
-    padding: 20px;
-}
-
-.frameDiv {
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    padding: 10px;
-}*/
-
-/* Initially hide the content */
-/*.content {
-    display: none;*/ /* Content is hidden initially */
-/*margin-top: 10px;
-}*/
-
-/* Button styles */
-/*.toggleBtn {
-    background-color: #004869;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-    font-size: 18px;
-}
-
-    .toggleBtn:focus {
-        outline: none;
-    }*/
-
-/* Show the content when active */
-/*.frameDiv.active .content {
-    display: block;
-}*/
-
-/* Change button color when the content is visible (active) */
-/*.frameDiv.active .toggleBtn {
-    background-color: #F9D72B;
-}*/
-
-/* Change button symbol when content is active */
-/*.frameDiv.active .toggleBtn::after {
-        content: '-';
-    }*/
-
-/* When inactive, display the plus sign */
-/*.frameDiv:not(.active) .toggleBtn::after {
-    content: '+';
-}*/
-
-/*END OF COLLAPSIBLE FRAMES*/
-
-/*reqSpecs and submission areas Section*/
-
+﻿/*buttons*/
 
 #dateCreate label {
     text-align: left;
@@ -69,10 +12,22 @@ label {
 
 
 /*reqSpecs and submission areas Section*/
-
-.card-header
+.file-uploader
 {
-    color:white;
+    margin-top:12px;
+}
+.uploadingNotes {
+    margin: 6px;
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+    background: #e0e0e0;
+    color: black;
+    font-family: Arial, sans-serif; /* Set font type */
+    font-size: 14px;
+    /*    font-weight: bold;*/
+}
+.card-header {
+    color: white;
 }
 #reqSpecs {
     border: none;
@@ -90,14 +45,14 @@ label {
 #dateCreate {
     margin-left: auto; /* Pushes the div to the right */
     text-align: right; /* Aligns content inside to the right */
-/*    background-color:aquamarine;*/
+    margin-bottom: 0px;
 }
 
 /*End of reqSpecs*/
-#spacer {
+/*#spacer {
     padding: 35px;
     border: none;
-}
+}*/
 
 #createReqDiv 
 {
@@ -127,14 +82,14 @@ label {
 .card-body {
 /*    border: 1px solid #e0e0e0;*/
     border-radius: 0;
-    padding:0;
+    padding:0px;
 }
 
 .row {
     position: relative;
     border: 1px solid #e0e0e0;
     border-radius: 5px;
-    margin: 40px 0 30px 0;
+    margin: 20px 0 20px 0;
     padding: 10px;
     box-sizing: border-box;
 
@@ -188,9 +143,10 @@ label {
     margin-bottom: 10px;
     margin-top: 10px;
     width: 150px;
-/*    background-color:aquamarine;*/
+    margin-right: 10px;
 }
 /* css for save and continue button frame*/
+
 .button-container {
     /*    display: flex;*/
     /*    justify-content: space-between;*/
@@ -230,12 +186,12 @@ label {
     padding: 10px;
 }
 
-
 /* SIDE BAR */
 .sidebar {
+    margin-top:0;
     background-color: white;
     color: #004869;
-    border: 1px solid #004869;
+    border: 1px solid #e0e0e0;
     padding: 15px;
     border-radius: 5px;
 }
@@ -247,9 +203,9 @@ label {
     text-align: center;
     background-color: #004869;
     color: white;
-    border: 1px solid #004869; /* Add border like the tabs */
-    padding: 10px; /* Add padding for consistent spacing */
-    border-radius: 5px; /* Match the rounded corners of the tabs */
+    border: 1px solid #004869; 
+    padding: 10px; 
+    border-radius: 5px; 
 }
 
 .sidebar-tabs {
@@ -258,8 +214,8 @@ label {
     margin: 0;
 }
 
-    .sidebar-tabs li
-    {
+    .sidebar-tabs li {
+        position: relative;
         border: 1px solid #004869;
         padding: 10px;
         margin-bottom: 10px;
@@ -276,3 +232,62 @@ label {
             
             color: white;
         }
+/*update to the tooltip's look*/
+        .sidebar-tabs li::after {
+            content: attr(data-title);
+            position: absolute;
+            left: 105%;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: white;
+            color: #004869;
+            border: 1px solid #004869;
+            padding: 8px 16px;
+            border-radius: 5px;
+            max-width: 250px;
+            min-width: 120px;
+            word-break: break-word;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            font-size: 15px;
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            /* Remove white-space: nowrap; to allow wrapping */
+        }
+
+        .sidebar-tabs li:hover::after {
+            opacity: 1;
+        }
+
+/* css for selected items*/
+        .sidebar-tabs li.selected {
+            background-color: #008060 !important;
+            color: #fff !important;
+/*            border-left: 4px solid white;*/
+        }
+
+
+.delete-icon {
+    font-size: 16px; /* Adjust size for visibility */
+    color: #ff4d4d; /* Red color for delete icon */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: color 0.3s ease; /* Smooth hover effect */
+}
+
+    .delete-icon:hover {
+        color: #cc0000; /* Darker red on hover */
+    }
+
+/*.rotate-icon {
+    display: inline-block;
+    transition: transform 0.3s ease;*/ /* Smooth rotation */
+/*}
+
+    .rotate-icon.rotated {
+        transform: rotate(180deg);*/ /* Rotate 180 degrees */
+    /*}*/
+
+.dx-fileuploader-upload-button {
+    display: none !important;
+}

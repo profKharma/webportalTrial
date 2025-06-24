@@ -1,0 +1,154 @@
+﻿@page
+@model webportalTrial.Pages.previewPageModel
+@{
+}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+<link href="~/css/createRequest.css" rel="stylesheet" />
+
+<div class="container-fluid py-4">
+    <div class="card card-lg shadow">
+        <div class="card-header bg-primary-blue text-white position-relative overflow-hidden">
+            <h1 class="h3 mb-0">REQUEST PREVIEW</h1>
+            <small>Generated: @DateTime.Now.ToString("dd MMM yyyy • HH:mm")</small>
+            <img src="~/images/svg/components/shape-1-soft-light.svg" class="position-absolute" style="top:-5rem;left:-5rem;width:11rem" alt="">
+            <img src="~/images/svg/components/shape-7-soft-light.svg" class="position-absolute" style="bottom:-5rem;right:-6rem;width:15rem" alt="">
+        </div>
+
+        <div class="card-body">
+            <section class="mb-5">
+                <h4 class="border-start border-4 border-primary ps-2 mb-3">ENTITY DETAILS</h4>
+                <dl class="row mb-0">
+                    <dt class="col-sm-4">MDA</dt> <dd class="col-sm-8">Ministry of Finance & the Public Service</dd>
+                    <dt class="col-sm-4">Division</dt> <dd class="col-sm-8">Public Expenditure Division</dd>
+                    <dt class="col-sm-4">Unit</dt> <dd class="col-sm-8">Payroll Management Unit</dd>
+                    <dt class="col-sm-4">Contact Officer</dt> <dd class="col-sm-8">Jane Brown</dd>
+                    <dt class="col-sm-4">Email</dt> <dd class="col-sm-8">jane.brown@mofps.gov.jm</dd>
+                    <dt class="col-sm-4">Office Phone</dt> <dd class="col-sm-8">+1 876-922-8535</dd>
+                    <dt class="col-sm-4">CUG Phone</dt> <dd class="col-sm-8">+1 876-999-1234</dd>
+                    <dt class="col-sm-4">Summary</dt> <dd class="col-sm-8">Request to regularise payroll anomalies and add three new positions.</dd>
+                </dl>
+            </section>
+
+            <section class="mb-5">
+                <h4 class="border-start border-4 border-primary ps-2 mb-3">POST CLASSIFICATION SCHEDULE</h4>
+                <dl class="row mb-0">
+                    <dt class="col-sm-4">Schedule Type</dt> <dd class="col-sm-8">Final Classification Schedule</dd>
+                    <dt class="col-sm-4">Post Number</dt> <dd class="col-sm-8">61305</dd>
+                    <dt class="col-sm-4">Classification Type</dt> <dd class="col-sm-8">Final</dd>
+                    <dt class="col-sm-4">Old Classification</dt> <dd class="col-sm-8">GMG CTD 1</dd>
+                    <dt class="col-sm-4">New Classification</dt> <dd class="col-sm-8">GMG CTD 2</dd>
+                    <dt class="col-sm-4">Remarks</dt> <dd class="col-sm-8">Upgrade aligns role with expanded duties under the 2024 reform.</dd>
+                </dl>
+            </section>
+
+            <section class="mb-5">
+                <h4 class="border-start border-4 border-primary ps-2 mb-3">CURRENT EMPLOYEE INFORMATION</h4>
+                <div class="row">
+                    <div class="col-md-8">
+                        <table class="table table-sm table-bordered align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Employee Type</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Alice</td><td>Johnson</td><td>Permanent</td><td>Active</td>
+                                </tr>
+                                <tr>
+                                    <td>Bob</td><td>Smith</td><td>Temporary</td><td>Pending</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="pdf-link" data-pdf="/uploads/emp_upload_001.pdf">
+                            <canvas class="pdf-thumbnail border" style="width:100%; height:auto; border: 1px solid #ccc;"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mb-5">
+                <h4 class="border-start border-4 border-primary ps-2 mb-3">POST INFORMATION</h4>
+                <dl class="row mb-0">
+                    <dt class="col-sm-4">Post Number</dt> <dd class="col-sm-8">61305</dd>
+                    <dt class="col-sm-4">Post Type</dt> <dd class="col-sm-8">Permanent</dd>
+                    <dt class="col-sm-4">Post Status</dt> <dd class="col-sm-8">Vacant</dd>
+                    <dt class="col-sm-4">Post Title</dt> <dd class="col-sm-8">Senior Analyst</dd>
+                    <dt class="col-sm-4">Grade / Level</dt> <dd class="col-sm-8">SEG 6</dd>
+                    <dt class="col-sm-4">Location</dt> <dd class="col-sm-8">Kingston Head Office</dd>
+                </dl>
+            </section>
+
+            <section class="mb-5">
+                <h4 class="border-start border-4 border-primary ps-2 mb-3">POST AUDIT</h4>
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="mb-2"><strong>Variances</strong><br />Two duty statements list fiscal-analysis tasks not in the approved JD.</div>
+                        <div class="mb-2"><strong>Justification</strong><br />Tasks were added ad-hoc to support the COVID-19 stimulus reporting.</div>
+                        <div class="mb-2"><strong>Audit Findings</strong><br />Role expansion is material; classification review recommended.</div>
+                        <div class="mb-2"><strong>Audit Recommendation</strong><br />Re-grade post to SEG 6 and recruit permanent analyst.</div>
+                        <div><strong>Current JD Available?</strong> Yes</div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="pdf-link" data-pdf="/uploads/audit_upload_001.pdf">
+                            <canvas class="pdf-thumbnail border" style="width:100%; height:auto; border: 1px solid #ccc;"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h4 class="border-start border-4 border-primary ps-2 mb-3">ESTABLISHMENT REQUEST</h4>
+                <dl class="row mb-0">
+                    <dt class="col-sm-4">Last Revised</dt> <dd class="col-sm-8">02 Mar 2025</dd>
+                    <dt class="col-sm-4">Last Requested</dt> <dd class="col-sm-8">15 Apr 2025</dd>
+                    <dt class="col-sm-4">Remarks</dt> <dd class="col-sm-8">Request to add three analysts and abolish one clerical post to reflect new workflow.</dd>
+                </dl>
+            </section>
+        </div>
+
+        <div class="card-footer d-flex justify-content-end gap-2">
+            <a asp-page="/createRequest" class="btn btn-secondary">
+                <i class="fas fa-arrow-left me-1"></i>Back to Form
+            </a>
+            <button class="btn btn-success">
+                <i class="fas fa-check-circle me-1"></i>Confirm & Submit
+            </button>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.2.67/pdf.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const pixelScale = 0.4 * window.devicePixelRatio;
+
+        document.querySelectorAll('.pdf-link').forEach(function (link) {
+            const pdfUrl = link.getAttribute('data-pdf');
+            const canvas = link.querySelector('.pdf-thumbnail');
+            if (!canvas || !pdfUrl) return;
+
+            pdfjsLib.getDocument(pdfUrl).promise.then(function (pdf) {
+                return pdf.getPage(1);
+            }).then(function (page) {
+                const viewport = page.getViewport({ scale: pixelScale });
+                const context = canvas.getContext('2d');
+                canvas.width = viewport.width;
+                canvas.height = viewport.height;
+                return page.render({ canvasContext: context, viewport }).promise;
+            }).catch(function (err) {
+                console.error("Failed to load or render PDF:", err);
+                const ctx = canvas.getContext('2d');
+                ctx.font = "12px sans-serif";
+                ctx.fillStyle = "red";
+                ctx.fillText("Error loading PDF", 10, 20);
+            });
+        });
+    });
+</script>
